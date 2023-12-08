@@ -7,7 +7,7 @@ import { AxiosService } from '../service/axios.service';
   styleUrls: ['./auth-content.component.scss']
 })
 export class AuthContentComponent {
-  data: string[] = [];
+  data?: string;
 
   constructor(private axiosService: AxiosService) {}
 

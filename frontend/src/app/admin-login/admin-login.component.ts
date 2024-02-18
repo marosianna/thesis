@@ -2,14 +2,14 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { Role } from '../model/Role';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  selector: 'app-admin-login',
+  templateUrl: './admin-login.component.html',
+  styleUrls: ['./admin-login.component.scss']
 })
-export class LoginComponent {
+export class AdminLoginComponent {
 
-  @Output() onSubmitUserLoginEvent = new EventEmitter();
-  @Output() onSubmitUserRegisterEvent = new EventEmitter();
+  @Output() onSubmitAdminLoginEvent = new EventEmitter();
+  @Output() onSubmitAdminRegisterEvent = new EventEmitter();
 
   active: string = "login";
   medId: number | undefined;
@@ -18,10 +18,11 @@ export class LoginComponent {
   username: string = "";
   email: string = "";
   password: string = "";
-  role: number = Role.User;
+  role: number = Role.Admin;
 
-  onSubmitUserLogin(): void {
-    this.onSubmitUserLoginEvent.emit({"username": this.username, "password": this.password});
+
+  onSubmitAdminLogin(): void {
+    this.onSubmitAdminLoginEvent.emit({"username": this.username, "password": this.password});
   }
 
   onLoginTab(): void {
@@ -32,9 +33,9 @@ export class LoginComponent {
     this.active = "register";
   }
 
-  onSubmitUserRegister(): void {
-    this.onSubmitUserRegisterEvent.emit({
-      "medId" : this.medId,
+  onSubmitAdminRegister(): void {
+    this.onSubmitAdminRegisterEvent.emit({
+      "medId": this.medId,
       "firstName": this.firstName,
       "lastName": this.lastName,
       "username": this.username,
@@ -43,4 +44,5 @@ export class LoginComponent {
       "role": this.role
     })
   }
+
 }

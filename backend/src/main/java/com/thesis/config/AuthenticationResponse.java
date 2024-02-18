@@ -1,14 +1,15 @@
-package com.thesis.dto;
+package com.thesis.config;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CredentialsDto {
+public class AuthenticationResponse {
 
-    private String login;
-    private char[] password;
+    private String token;
 }

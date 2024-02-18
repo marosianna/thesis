@@ -13,7 +13,7 @@
 
 	<div class="tab-content">
 	  <div [ngClass]="active == 'login' ? 'tab-pane fade show active' : 'tab-pane fade'">
-	    <form (ngSubmit)="onSubmitUserLogin()" #loginForm="ngForm">
+	    <form (ngSubmit)="onSubmitAdminLogin()" #loginForm="ngForm">
 
 	      <div class="form-outline mb-4">
 	        <input type="login" id="username" name= "username" class="form-control" [(ngModel)]="username" />
@@ -30,13 +30,12 @@
 	    </form>
 	  </div>
 	  <div [ngClass]="active == 'register' ? 'tab-pane fade show active' : 'tab-pane fade'">
-	    <form (ngSubmit)="onSubmitUserRegister()" #registerForm="ngForm">
+	    <form (ngSubmit)="onSubmitAdminRegister()" #registerForm="ngForm">
 
 		<div class="form-outline mb-4">
 			<input type="text" id="medId" name="medId" class="form-control" [(ngModel)]="medId" />
-			<label class="form-label" for="medId">Taj number</label>
+			<label class="form-label" for="medId">Med number</label>
 		</div>
-
 	      <div class="form-outline mb-4">
 	        <input type="text" id="firstName" name="firstName" class="form-control" [(ngModel)]="firstName" />
 	        <label class="form-label" for="firstName">First name</label>
@@ -67,3 +66,4 @@
 	</div>
 	</div>
 </div>
+

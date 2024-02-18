@@ -23,9 +23,9 @@ export class UserComponent {
   onLogin(input: any): void {
     this.axiosService.request(
       "POST",
-      "/login",
+      "/api/auth/login",
       {
-        login: input.login,
+        username: input.username,
         password: input.password
       }
     ).then(
@@ -40,15 +40,79 @@ export class UserComponent {
   );
   }
 
+  onLoginAdmin(input: any): void {
+    this.axiosService.request(
+      "POST",
+      "/api/auth/login",
+      {
+        username: input.username,
+        password: input.password
+      }
+    ).then(
+      response => {
+          this.axiosService.setAuthToken(response.data.token);
+          this.componentToShow = "messages";
+      }).catch(
+      error => {
+          this.axiosService.setAuthToken(null);
+          this.componentToShow = "welcome";
+      }
+  );
+  }
+
+  logout(): void {
+    this.axiosService.request(
+        "POST",
+        "/api/auth/logout",
+        {}
+    ).then(
+        () => {
+            this.axiosService.setAuthToken(null);
+            this.componentToShow = "welcome";
+        }).catch(
+        error => {
+            console.error("Logout failed:", error);
+        }
+    );
+}
+
   onRegister(input: any): void {
     this.axiosService.request(
       "POST",
-      "/register",
+      "/api/auth/register",
       {
+        medId: input.medId,
         firstName: input.firstName,
         lastName: input.lastName,
-        login: input.login,
-        password: input.password
+        email: input.email,
+        username: input.username,
+        password: input.password,
+        role: input.role
+      }
+    ).then(
+      response => {
+          this.axiosService.setAuthToken(response.data.token);
+          this.componentToShow = "messages";
+      }).catch(
+      error => {
+          this.axiosService.setAuthToken(null);
+          this.componentToShow = "welcome";
+      }
+  );
+  }
+
+  onRegisterAdmin(input: any): void {
+    this.axiosService.request(
+      "POST",
+      "/api/auth/register",
+      {
+        medId: input.medId,
+        firstName: input.firstName,
+        lastName: input.lastName,
+        email: input.email,
+        username: input.username,
+        password: input.password,
+        role: input.role
       }
     ).then(
       response => {

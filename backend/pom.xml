@@ -89,6 +89,21 @@
 			<artifactId>java-jwt</artifactId>
 			<version>4.3.0</version>
 		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>0.11.5</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>0.11.5</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>0.11.5</version>
+		</dependency>
 
 	</dependencies>
 
@@ -111,8 +126,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.5.1</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>9</source>
+					<target>9</target>
 					<annotationProcessorPaths>
 						<path>
 							<groupId>org.projectlombok</groupId>
@@ -132,6 +147,59 @@
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<version>6.0.0</version>
+				<executions>
+					<execution>
+						<phase>generate-test-sources</phase>
+						<id>generate test sources</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.basedir}/target/openapi.json</inputSpec>
+							<generateSupportingFiles>false</generateSupportingFiles>
+							<generatorName>java</generatorName>
+							<output>${project.basedir}</output>
+							<apiPackage>com.thesis.api</apiPackage>
+							<modelPackage>com.thesis.model</modelPackage>
+							<invokerPackage>com.thesis.invoker</invokerPackage>
+							<generateModelTests>false</generateModelTests>
+							<generateApiTests>false</generateApiTests>
+							<generateModelDocumentation>false</generateModelDocumentation>
+							<generateApiDocumentation>false</generateApiDocumentation>
+							<!--<supportingFilesToGenerate>ApiClient.java,JavaTimeFormatter.java,Authentication.java,ApiModelProperty.java,ApiKeyAuth.java,RFC3339DateFormat.java</supportingFilesToGenerate>-->
+							<configOptions>
+								<library>resttemplate</library>
+								<serializationLibrary>jackson</serializationLibrary>
+								<sourceFolder>src/test/java</sourceFolder>
+								<useSpringBoot3>true</useSpringBoot3>
+								<useJakartaEe>true</useJakartaEe>
+							</configOptions>
+						</configuration>
+					</execution>
+					<execution>
+						<phase>integration-test</phase>
+						<id>generate frontend sources</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.basedir}/target/openapi.json</inputSpec>
+							<generatorName>typescript-angular</generatorName>
+							<output>${project.basedir}/../frontend/src/app</output>
+							<apiPackage>api</apiPackage>
+							<modelPackage>model</modelPackage>
+							<invokerPackage>invoker</invokerPackage>
+							<supportingFilesToGenerate>
+								models.ts,api.ts,variables.ts,index.ts,encoder.ts,configuration.ts,api.module.ts
+							</supportingFilesToGenerate>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

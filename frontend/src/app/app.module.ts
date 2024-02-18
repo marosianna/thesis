@@ -11,6 +11,7 @@ import { AuthContentComponent } from './auth-content/auth-content.component';
 import { LoginComponent } from './login/login.component';
 import { WelcomePageComponent } from './welcome-page/welcome-page.component';
 import { ButtonsComponent } from './buttons/buttons.component';
+import { AdminLoginComponent } from './admin-login/admin-login.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { ButtonsComponent } from './buttons/buttons.component';
     LoginComponent,
     WelcomePageComponent,
     ButtonsComponent,
+    AdminLoginComponent,
   ],
   imports: [
     BrowserModule,

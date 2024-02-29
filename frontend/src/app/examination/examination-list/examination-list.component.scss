@@ -1,0 +1,56 @@
+
+.main_component{
+    height: 100vh;
+}
+
+mat-card{
+    width: 80%;
+    height: 80%;
+    align-self: center;
+}
+
+/*.div-flex{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    height: 80%;
+}*/
+
+mat-card-header{
+    display: initial;
+}
+
+div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    height: 100vh;
+}
+
+mat-form-field{
+    width: 100%;
+}
+
+mat-card-actions{
+    display: initial;
+}
+
+mat-card-actions{
+    width: 80%;
+    height: 80%;
+    align-self: center;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+.table-header-even {
+    background-color: rgb(201, 206, 213);
+}
+
+.table-header-odd {
+    background-color: rgb(136, 165, 207);
+}

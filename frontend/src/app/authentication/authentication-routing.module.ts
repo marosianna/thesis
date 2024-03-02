@@ -12,9 +12,6 @@ const routes: Routes = [
   { path: 'admin', component: AdminLoginComponent},
   { path: 'logout', component: LoginComponent},
   { path: 'admin/register', component: AdminRegisterComponent},
-
-  //{ path: 'registration', component: RegistrationComponent },
-  //{ path: 'reset-password', component: ResetPasswordComponent },
   { path: '**', component: LoginComponent},
 ];
 

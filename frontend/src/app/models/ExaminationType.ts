@@ -1,11 +1,11 @@
 export enum ExaminationType {
-    CLINICAL,
-    HEMATOLOGICAL,
-    BLOOD_COAGULATION,
-    AUTOIMMUNE,
-    IMMUNOLOGICAL,
-    HORMONE,
-    INSULIN,
-    DRUG,
-    FETAL
+    CLINICAL = "Clinical",
+    HEMATOLOGICAL = "Hematological",
+    BLOOD_COAGULATION = "Blood coagulation",
+    AUTOIMMUNE = "Autoimmune",
+    IMMUNOLOGICAL = "Immunological",
+    HORMONE = "Hormone",
+    INSULIN = "Insulin",
+    DRUG = "Drug",
+    FETAL = "Fetal"
 }

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
 @Setter
@@ -21,13 +22,13 @@ public class ExaminationEntity {
     private Long id;
 
     @Column(name = "referral_number", nullable = false)
-    private Long referralNumber;
+    private String referralNumber;
 
-    @Column(name = "type", nullable = false)
+    @Column(name = "type")
     @Enumerated(EnumType.STRING)
     private ExaminationType examinationType;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     public UserEntity user;
 
@@ -36,6 +37,6 @@ public class ExaminationEntity {
     private ExaminationStatus examinationStatus;
 
     @Column(name = "date", nullable = false)
-    private ZonedDateTime date;
+    private LocalDate date;
 
 }

@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
 @Data
@@ -17,7 +18,7 @@ public class ExaminationByFilterDto {
 
     private ExaminationStatus status;
     private ExaminationType type;
-    private ZonedDateTime fromDate;
-    private ZonedDateTime toDate;
+    private LocalDate fromDate;
+    private LocalDate toDate;
 
 }

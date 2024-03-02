@@ -34,7 +34,7 @@ export class UserService extends BaseRequestService {
   logout() {
     return this.sendPost(this.authUrl +'/logout', {}).subscribe(x => {
       this.tokenService.resetTokenStorage();
-      this.router.navigate(['/logout'])
+      this.router.navigate(['/login'])
     });
   }
 

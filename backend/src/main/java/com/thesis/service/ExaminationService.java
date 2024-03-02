@@ -2,6 +2,7 @@ package com.thesis.service;
 
 import com.thesis.dto.CreateExaminationDto;
 import com.thesis.dto.ExaminationByFilterDto;
+import com.thesis.dto.ExaminationTableDataResponse;
 import com.thesis.entity.ExaminationEntity;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public interface ExaminationService {
 
     Long deleteById(Long id);
 
-    List<ExaminationEntity> getAllByUserId(Long id);
+    List<ExaminationTableDataResponse> getAllByUserId(Long id);
 
     List<ExaminationEntity> getAllByFilter(ExaminationByFilterDto dto);
 

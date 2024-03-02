@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Examination } from 'src/app/models/Examination';
 import { ExaminationService } from 'src/app/services/examination.service';
 import { UserService } from 'src/app/services/user.service';
+import { NewExaminationDialogComponent } from '../new-examination-dialog/new-examination-dialog.component';
 
 @Component({
   selector: 'app-examination-list',
@@ -15,7 +17,8 @@ export class ExaminationListComponent implements OnInit{
 
   constructor(private examinationService: ExaminationService,
               private userService: UserService,
-              private router: Router){}
+              private router: Router,
+              private dialog: MatDialog){}
 
   ngOnInit(): void {
    this.loadExaminations();
@@ -42,5 +45,11 @@ export class ExaminationListComponent implements OnInit{
       // Redirect user to login page or show error message
     }
   }*/
+  }
+
+  openPopup(): void {
+    const dialogRef = this.dialog.open(NewExaminationDialogComponent, {
+      width: '900px',
+    });
   }
 }

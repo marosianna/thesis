@@ -1,5 +1,6 @@
 package com.thesis.repository;
 
+import com.thesis.dto.ExaminationTableDataResponse;
 import com.thesis.entity.ExaminationEntity;
 import com.thesis.entity.ExaminationStatus;
 import com.thesis.entity.ExaminationType;
@@ -7,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -21,8 +23,8 @@ public interface ExaminationRepository extends JpaRepository<ExaminationEntity, 
     List<ExaminationEntity> findByFilter(
             ExaminationStatus status,
             ExaminationType type,
-            ZonedDateTime fromDate,
-            ZonedDateTime toDate
+            LocalDate fromDate,
+            LocalDate toDate
     );
 
     List<ExaminationEntity> findAllByUserId(Long userId);

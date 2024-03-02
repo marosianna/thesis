@@ -3,40 +3,29 @@
     <mat-card class="div-flex">
         <mat-card-header>
             <mat-card-title>
-                Profil oldal
+                My appointments
             </mat-card-title>
         </mat-card-header>
-       <!-- <mat-card-actions class="div-flex">
-            <form [formGroup]="userForm">
-            <mat-form-field>
-                <span><mat-icon>person</mat-icon></span>
-                <input matInput type="text" formControlName="username" readonly/>
-            </mat-form-field>
-            
-            <mat-form-field>
-                <span><mat-icon>mail</mat-icon></span>
-                <input matInput type="text" formControlName="email" readonly/>
-            </mat-form-field>
-            </form>
-        </mat-card-actions> -->
+        <div><button class="btn btn-outline-primary" (click)="openPopup()">New appointment</button></div>
         <div class="div-flex" *ngIf="examinations.length">
-            <mat-card-header>
-                <mat-card-title>
-                    My appointments
-                </mat-card-title>
-            </mat-card-header>
-            <table mat-table>
+            <table class="table mat-table">
+                <thead>
                 <tr>
-                    <th>Referral number</th>
-                    <th>Type</th>
-                    <th>Status</th>
-                    <th>Date</th>
+                    <th scope="col">Referral number</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Date</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
                 </tr>
+            </thead>
                 <tr *ngFor="let examination of examinations">
-                    <td>{{examination.referralNumber}}</td>
-                    <td>{{examination.examinationType}}</td>
-                    <td>{{examination.examinationStatus }}</td>
-                    <td>{{examination.date}}</td>
+                    <td scope="row">{{examination.referralNumber}}</td>
+                    <td scope="row">{{examination.type}}</td>
+                    <td scope="row">{{examination.status }}</td>
+                    <td scope="row">{{examination.date | date }}</td>
+                    <td scope="row"><button class="btn btn-outline-primary" [routerLink]="''">Modify</button></td>
+                    <td scope="row"><button class="btn btn-outline-danger" [routerLink]="''">Delete</button></td>
                 </tr>
             </table>
         </div>

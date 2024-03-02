@@ -5,8 +5,8 @@ import { User } from "./User";
 export interface Examination {
     id: number;
     referralNumber: number;
-    examinationType: ExaminationType;
-    examinationStatus: ExaminationStatus;
+    type: ExaminationType;
+    status: ExaminationStatus;
     user: User;
     date: Date;
 }

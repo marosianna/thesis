@@ -19,14 +19,12 @@ export class ExaminationService extends BaseRequestService{
   }
   url = 'api/examination';
 
-  create(referralNumber: any, examinationType: ExaminationType, examinationStatus: ExaminationStatus, date: Date) {
-    const val = { 
-      referralNumber,
-      examinationType,
-      examinationStatus,
-      date
-     };
-    return this.sendPost(this.url + '/create', val);
+  create(val: any) {
+    const user = this.userService.getUser();
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + user.access_token
+    });
+    return this.sendPost(this.url + '/create', val, headers);
   }
 
   getById(id: number) {
@@ -35,9 +33,9 @@ export class ExaminationService extends BaseRequestService{
 
   getAllByUser(): Observable<Examination[]> {
     const user = this.userService.getUser();
-    console.log(user.access_token);
+    console.log(user);
     const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + user.access_token // A JWT tokent a Bearer authentikációs sémával továbbítjuk
+      'Authorization': 'Bearer ' + user.access_token 
     });
     console.log(headers);
     return this.sendGet(this.url + '/by-user', headers);

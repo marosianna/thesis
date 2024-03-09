@@ -2,24 +2,24 @@ package com.thesis.service;
 
 import com.thesis.dto.CreateExaminationDto;
 import com.thesis.dto.ExaminationByFilterDto;
+import com.thesis.dto.ExaminationResponse;
 import com.thesis.dto.ExaminationTableDataResponse;
-import com.thesis.entity.ExaminationEntity;
-import com.thesis.entity.ExaminationStatus;
-import com.thesis.entity.UserEntity;
+import com.thesis.entity.*;
+import com.thesis.exception.AppException;
 import com.thesis.mapper.ExaminationMapper;
 import com.thesis.repository.ExaminationRepository;
 import com.thesis.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,19 +31,37 @@ public class ExaminationServiceImpl implements ExaminationService{
     private final UserRepository userRepository;
 
     @Override
-    public Long createExamination(CreateExaminationDto dto) {
+    public ExaminationResponse createExamination(CreateExaminationDto dto) {
 
-        //TODO
-        //validation for referralNumber: 10 digits
-        //validation for type: cant be 2 same type for one user
         //validation for date: available or not
+        if (timeValidation(dto.getDate(), dto.getTime())) {
+            throw new AppException("This time is not available!");
+        }
+
+        //validation for type: cant be 2 same type for one user
+        if (typeValidation(getCurrentLoggedInUser(), dto.getExaminationType())) {
+           throw new AppException("Cannot have more than one examination of the same type.");
+        }
+
         ExaminationEntity examination = new ExaminationEntity();
         examination.setExaminationType(dto.getExaminationType());
         examination.setExaminationStatus(ExaminationStatus.IN_PROGRESS);
         examination.setUser(getCurrentLoggedInUser());
-        examination.setDate(dto.getDate());
+        examination.setDate(dto.getDate().plusDays(1));
+        examination.setTime(dto.getTime());
         examination.setReferralNumber(dto.getReferralNumber());
-        return examinationRepository.save(examination).getId();
+        ExaminationEntity savedExamination = examinationRepository.save(examination);
+        return examinationMapper.mapToExaminationResponse(savedExamination);
+    }
+
+    private boolean timeValidation(LocalDate date, Time time) {
+        Set<Time> notAvailableTimes = this.getNotAvailableTimesByDate(date);
+        return notAvailableTimes.contains(time);
+    }
+
+    private boolean typeValidation(UserEntity user, ExaminationType type) {
+        Optional<ExaminationEntity> optExam = examinationRepository.findByUserIdAndTypeAndExaminationIsNotClosed(user.getId(), type);
+        return optExam.isPresent();
     }
 
     private UserEntity getCurrentLoggedInUser(){
@@ -64,18 +82,15 @@ public class ExaminationServiceImpl implements ExaminationService{
             return null;
         }
         ExaminationEntity examination = byId.get();
-        if (examination.getDate().isBefore(LocalDate.now().minusDays(2))) {
-            examinationRepository.deleteById(id);
-        } else {
-            //TODO
-            //validation for date: cant be in 2 days when deleting
-        }
+        examinationRepository.deleteById(examination.getId());
+
         return id;
     }
 
     @Override
-    public List<ExaminationTableDataResponse> getAllByUserId(Long userId) {
-        List<ExaminationEntity> examinations = examinationRepository.findAllByUserId(userId);
+    public List<ExaminationTableDataResponse> getAllByUser() {
+        UserEntity loggedInUser = getCurrentLoggedInUser();
+        List<ExaminationEntity> examinations = examinationRepository.findAllByUserId(loggedInUser.getId());
         return examinationMapper.mapToTableDataResponseList(examinations);
     }
 
@@ -90,23 +105,38 @@ public class ExaminationServiceImpl implements ExaminationService{
     }
 
     @Override
-    public Long update(Long id, CreateExaminationDto dto) {
+    public ExaminationResponse update(Long id, CreateExaminationDto dto) {
         Optional<ExaminationEntity> byId = examinationRepository.findById(id);
         if (!byId.isPresent()) {
             return null;
         }
-        //TODO
-        //validation for referralNumber: 10 digits
-        //validation for type: cant be 2 same type for one user
         //validation for date: available or not
-        //validation for date: cant be in 2 days when updating
+        if (timeValidation(dto.getDate(), dto.getTime())) {
+            throw new AppException("This time is not available!");
+        }
+
+        //validation for type: cant be 2 same type for one user
+        if (typeValidation(getCurrentLoggedInUser(), dto.getExaminationType())) {
+            throw new AppException("Cannot have more than one examination of the same type.");
+        }
 
         ExaminationEntity examination = byId.get();
         examination.setExaminationType(dto.getExaminationType());
-        examination.setExaminationStatus(ExaminationStatus.IN_PROGRESS);
+        examination.setExaminationStatus(ExaminationStatus.MODIFIED);
         examination.setUser(getCurrentLoggedInUser());
-        examination.setDate(dto.getDate());
+        examination.setDate(dto.getDate().plusDays(1));
         examination.setReferralNumber(dto.getReferralNumber());
-        return examinationRepository.save(examination).getId();
+        examination.setTime(dto.getTime());
+        ExaminationEntity savedExamination = examinationRepository.save(examination);
+        return examinationMapper.mapToExaminationResponse(savedExamination);
+    }
+
+    @Override
+    public Set<Time> getNotAvailableTimesByDate(LocalDate date) {
+        List<ExaminationEntity> examinationsByDate = examinationRepository.findAllByDate(date.plusDays(1));
+
+        return examinationsByDate.stream()
+                .map(ExaminationEntity::getTime)
+                .collect(Collectors.toSet());
     }
 }

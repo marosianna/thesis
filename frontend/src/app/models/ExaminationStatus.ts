@@ -1,6 +1,6 @@
 export enum ExaminationStatus {
     IN_PROGRESS = "In progress",
-    SAVED = "Saved",
+    MODIFIED = "Modified",
     WAITING_FOR_RESULT = "Waiting for result",
     CLOSED = "Closed"
 }

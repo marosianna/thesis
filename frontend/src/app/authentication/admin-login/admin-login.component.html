@@ -21,13 +21,11 @@
 	    <form (ngSubmit)="onSubmitAdminLogin()" id="login_form" name="wf-form-Login" data-name="Login">
 
 	      <div class="form-outline mb-4">
-	        <input type="login" id="username" name= "username" class="form-control" [(ngModel)]="username" placeholder="Username" required />
-	        <label class="form-label" for="username">Admin Username</label>
+	        <input type="login" id="username" name= "username" class="form-control" [(ngModel)]="username" placeholder="Admin username" required />
 	      </div>
 
 	      <div class="form-outline mb-4">
 	        <input type="password" id="loginPassword" name="password" class="form-control" [(ngModel)]="password" placeholder="Password" required />
-	        <label class="form-label" for="loginPassword">Password</label>
 	      </div>
 
 	      <button type="submit" class="btn btn-primary btn-block mb-4">Sign in as an Administrator</button>

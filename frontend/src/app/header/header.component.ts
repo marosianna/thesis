@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -6,18 +6,28 @@ import { UserService } from '../services/user.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnChanges{
+export class HeaderComponent implements OnChanges, OnInit{
 
   constructor(private userService: UserService) {}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    window.location.reload();
+  loggedInUser : boolean = this.userService.isUserLoggedIn();
+
+  ngOnInit(): void {
+    this.updateLoggedInUserStatus();
   }
 
-  loggedInUser: boolean = this.userService.isUserLoggedIn();
+  ngOnChanges(changes: SimpleChanges): void {
+    window.location.reload();
+    this.updateLoggedInUserStatus();
+  }
+
+  updateLoggedInUserStatus(): void {
+    this.loggedInUser = this.userService.isUserLoggedIn();
+  }
 
   logout(): void {
     this.userService.logout();
+    this.updateLoggedInUserStatus();
   }
 
 }

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 @Setter
@@ -38,5 +39,9 @@ public class ExaminationEntity {
 
     @Column(name = "date", nullable = false)
     private LocalDate date;
+
+    @Column(name = "time")
+    @Enumerated(EnumType.STRING)
+    private Time time;
 
 }

@@ -62,6 +62,7 @@ public class AuthController {
         authService.logout(request,response,authentication);
     }
 
+    /*
     @PatchMapping("/change-password")
     public ResponseEntity<?> changePassword(
             @RequestBody ChangePasswordRequest request,
@@ -70,5 +71,7 @@ public class AuthController {
         authService.changePassword(request, connectedUser);
         return ResponseEntity.ok().build();
     }
+
+     */
 
 }

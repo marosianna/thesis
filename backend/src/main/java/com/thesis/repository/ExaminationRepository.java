@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ExaminationRepository extends JpaRepository<ExaminationEntity, Long> {
@@ -28,4 +29,13 @@ public interface ExaminationRepository extends JpaRepository<ExaminationEntity, 
     );
 
     List<ExaminationEntity> findAllByUserId(Long userId);
+
+    @Query("select e from ExaminationEntity e where "
+    + "e.date = :date")
+    List<ExaminationEntity> findAllByDate(LocalDate date);
+
+    @Query("select e from ExaminationEntity e where "
+    + "e.user.id = :id and e.examinationType = :type "
+    + "and e.examinationStatus != 'CLOSED'")
+    Optional<ExaminationEntity> findByUserIdAndTypeAndExaminationIsNotClosed(Long id, ExaminationType type);
 }

@@ -37,9 +37,10 @@ export class AdminRegisterComponent {
     this.userService.createAdmin(val).subscribe(res => {
       this.messages = [{ severity: 'success', summary: "Registration is successful!"}];
     },
-      error => {
-        this.messages = [{ severity: 'error', detail: error.error.username}];
-      });
+    (error: any) => {
+      console.log(error.error.message);
+      this.messages = [{ severity: 'error', summary: error.error.message}];
+    });
   }
 
 

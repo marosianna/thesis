@@ -32,7 +32,8 @@ export class AdminLoginComponent {
           this.router.navigate(['/examination']);
       },
       (error: any) => {
-        this.messages = [{ severity: 'error', summary: 'Your username or password is not correct.'}];
+        console.log(error.error.message);
+        this.messages = [{ severity: 'error', summary: error.error.message}];
       }
       );
   }

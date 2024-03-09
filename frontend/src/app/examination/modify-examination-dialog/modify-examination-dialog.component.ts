@@ -1,31 +1,25 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Message } from 'primeng/api';
-import { catchError } from 'rxjs';
 import { Examination } from 'src/app/models/Examination';
 import { ExaminationType } from 'src/app/models/ExaminationType';
 import { TimeSlot } from 'src/app/models/TimeSlot';
 import { ExaminationService } from 'src/app/services/examination.service';
 
 @Component({
-  selector: 'app-new-examination-dialog',
-  templateUrl: './new-examination-dialog.component.html',
-  styleUrls: ['./new-examination-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-modify-examination-dialog',
+  templateUrl: './modify-examination-dialog.component.html',
+  styleUrls: ['./modify-examination-dialog.component.scss']
 })
-export class NewExaminationDialogComponent implements OnInit {
-
+export class ModifyExaminationDialogComponent implements OnInit {
   examinationTypes = ExaminationType;
   timeSlots = TimeSlot;
-  removeTimes: any;
-
-  fromDate = new Date();
- 
-  public messages: Message[] = [];
-
   examinations : Examination [] = [];
 
+  public messages: Message[] = [];
+
+  fromDate = new Date();
 
   newExaminationForm = new FormGroup({
     referralNumber: new FormControl(""),
@@ -34,19 +28,23 @@ export class NewExaminationDialogComponent implements OnInit {
     time: new FormControl(""),
   })
 
-  newExamination: any = {}; 
-
   constructor(
-    public examinationService: ExaminationService,
-    public dialogRef: MatDialogRef<NewExaminationDialogComponent>,
+    private formBuilder: FormBuilder,
+    private examinationService: ExaminationService,
+    public dialogRef: MatDialogRef<ModifyExaminationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
-
   ngOnInit(): void {
     this.examinations = this.data.examinations;
-  }
 
+    this.newExaminationForm = this.formBuilder.group({
+      referralNumber: [{value: this.data.examination.referralNumber, disabled: true}, Validators.required],
+      examinationType: [this.data.examination.examinationType, Validators.required],
+      date: [this.data.examination.date, Validators.required],
+      time: [this.data.examination.time, Validators.required] 
+    });
+  }
 
   saveExamination(): void {
     const val = {
@@ -55,16 +53,20 @@ export class NewExaminationDialogComponent implements OnInit {
       date: this.newExaminationForm.get('date')?.value,
       time: this.newExaminationForm.get('time')?.value
     }
-
-    this.examinationService.create(val).subscribe((res:any) => {
+    this.examinationService.update(this.data.examination.id, val).subscribe((res: any) => {
+    const index = this.examinations.findIndex(examination => examination.id === this.data.examination.id);
+    if (index !== -1) {
+      this.examinations.splice(index, 1);
+    }
     this.examinations.push(res);
-    this.dialogRef.close(this.newExamination);
+    this.dialogRef.close();
+    this.dialogRef.close();
     },
     (error: any) => {
       console.log(error.error.message);
       this.messages = [{ severity: 'error', summary: error.error.message}];
     }
-    )
+    );
   }
 
   close() {
@@ -73,17 +75,6 @@ export class NewExaminationDialogComponent implements OnInit {
 
   onNoClick(): void {
     this.dialogRef.close(); 
-  }
-
-  onDateSelected(event: any) {
-    const selectedDate: Date = event.value;
-    this.examinationService.getAvailableTimes(selectedDate).subscribe((res: any) => {
-      this.removeTimes = res;
-    })
-  }
-
-  isAvailable(value: any): boolean {
-    return this.removeTimes && !this.removeTimes.includes(value);
   }
 
 }

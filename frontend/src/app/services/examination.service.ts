@@ -16,15 +16,14 @@ export class ExaminationService extends BaseRequestService{
 
   constructor(http: HttpClient, private userService: UserService, private router: Router, private tokenServie: TokenService) {
     super(http);
+    
   }
+
+  public show_summary: boolean = false;
   url = 'api/examination';
 
   create(val: any) {
-    const user = this.userService.getUser();
-    const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + user.access_token
-    });
-    return this.sendPost(this.url + '/create', val, headers);
+    return this.sendPost(this.url + '/create', val);
   }
 
   getById(id: number) {
@@ -32,13 +31,7 @@ export class ExaminationService extends BaseRequestService{
   }
 
   getAllByUser(): Observable<Examination[]> {
-    const user = this.userService.getUser();
-    console.log(user);
-    const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + user.access_token 
-    });
-    console.log(headers);
-    return this.sendGet(this.url + '/by-user', headers);
+    return this.sendGet(this.url + '/by-user');
   }
 
   getByFilter(examinationType: ExaminationType, examinationStatus: ExaminationStatus, fromDate: Date, toDate: Date) {
@@ -51,13 +44,15 @@ export class ExaminationService extends BaseRequestService{
     return this.sendPost(this.url + '/by-filter', val);
   }
 
-  update(id: number, referralNumber: any, examinationType: ExaminationType, examinationStatus: ExaminationStatus, date: Date) {
-    const val = {
-      referralNumber,
-      examinationType,
-      examinationStatus,
-      date
-    };
+  deleteById(id: number) {
+    return this.sendDelete(this.url + '/' + id);
+  }
+
+  update(id: number, val: any) {
     return this.sendPut(this.url + '/' + id, val);
+  }
+
+  getAvailableTimes(date: Date) {
+    return this.sendPost(this.url + '/available-times', date);
   }
 }

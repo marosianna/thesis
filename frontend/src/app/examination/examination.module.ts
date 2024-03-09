@@ -15,13 +15,25 @@ import { NewExaminationDialogComponent } from './new-examination-dialog/new-exam
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatInputModule} from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { EnumValueByKeyPipe } from '../pipes/EnumValueByKeyPipe';
+import { TypeByKeyPipe } from '../pipes/TypeByKeyPipe';
+import { StatusByKeyPipe } from '../pipes/StatusByKeyPipe';
+import { DeleteExaminationDialogComponent } from './delete-examination-dialog/delete-examination-dialog.component';
+import { ModifyExaminationDialogComponent } from './modify-examination-dialog/modify-examination-dialog.component';
+import { MessagesModule } from 'primeng/messages';
+import {ToastModule} from 'primeng/toast';
 
 
 @NgModule({
   declarations: [
     ExaminationListComponent,
     ExaminationComponent,
-    NewExaminationDialogComponent
+    NewExaminationDialogComponent,
+    EnumValueByKeyPipe,
+    TypeByKeyPipe,
+    StatusByKeyPipe,
+    DeleteExaminationDialogComponent,
+    ModifyExaminationDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -37,7 +49,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatDialogModule,
     MatInputModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MessagesModule,
+    ToastModule
     ]
 })
 export class ExaminationModule { }

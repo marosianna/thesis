@@ -15,17 +15,19 @@
                     <th scope="col">Type</th>
                     <th scope="col">Status</th>
                     <th scope="col">Date</th>
+                    <th scope="col">Time</th>
                     <th scope="col"></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
                 <tr *ngFor="let examination of examinations">
                     <td scope="row">{{examination.referralNumber}}</td>
-                    <td scope="row">{{examination.type}}</td>
-                    <td scope="row">{{examination.status }}</td>
+                    <td scope="row">{{examination.type | enumValueByKeyType}}</td>
+                    <td scope="row">{{examination.status | enumValueByKeyStatus}}</td>
                     <td scope="row">{{examination.date | date }}</td>
-                    <td scope="row"><button class="btn btn-outline-primary" [routerLink]="''">Modify</button></td>
-                    <td scope="row"><button class="btn btn-outline-danger" [routerLink]="''">Delete</button></td>
+                    <td scope="row">{{examination.time | enumValueByKey }}</td>
+                    <td scope="row"><button class="btn btn-outline-primary" (click)="openModifyDialog(examination)">Modify</button></td>
+                    <td scope="row"><button class="btn btn-outline-danger" (click)="openDeleteDialog(examination)">Delete</button></td>
                 </tr>
             </table>
         </div>

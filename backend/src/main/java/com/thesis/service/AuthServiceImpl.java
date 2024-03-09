@@ -2,13 +2,13 @@ package com.thesis.service;
 
 import com.thesis.auth.AuthenticationRequest;
 import com.thesis.auth.AuthenticationResponse;
-import com.thesis.auth.ChangePasswordRequest;
 import com.thesis.config.JwtService;
 import com.thesis.auth.RegisterRequest;
 import com.thesis.entity.Role;
 import com.thesis.entity.TokenEntity;
 import com.thesis.entity.TokenType;
 import com.thesis.entity.UserEntity;
+import com.thesis.exception.AppException;
 import com.thesis.repository.TokenRepository;
 import com.thesis.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,6 +25,7 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +39,15 @@ public class AuthServiceImpl implements LogoutHandler, AuthService {
 
     @Override
     public AuthenticationResponse register(RegisterRequest request) {
+
+        if (usernameValidation(request.getUsername())) {
+            throw new AppException("The username is already taken.");
+        }
+
+        if (medIdValidation(request.getMedId())){
+            throw new AppException("Med id must be unique");
+        }
+
         UserEntity user = new UserEntity();
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
@@ -79,6 +89,15 @@ public class AuthServiceImpl implements LogoutHandler, AuthService {
 
     @Override
     public AuthenticationResponse registerAdmin(RegisterRequest request) {
+
+        if (usernameValidation(request.getUsername())) {
+            throw new AppException("The username is already taken.");
+        }
+
+        if (medIdValidation(request.getMedId())){
+            throw new AppException("Med id must be unique");
+        }
+
         UserEntity user = new UserEntity();
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
@@ -140,6 +159,7 @@ public class AuthServiceImpl implements LogoutHandler, AuthService {
         }
     }
 
+    /*
     @Override
     public void changePassword(ChangePasswordRequest request, Principal connectedUser) {
 
@@ -161,6 +181,8 @@ public class AuthServiceImpl implements LogoutHandler, AuthService {
         userRepository.save(user);
     }
 
+     */
+
     private void saveUserToken(UserEntity user, String jwtToken) {
         var token = TokenEntity.builder()
                 .user(user)
@@ -181,5 +203,15 @@ public class AuthServiceImpl implements LogoutHandler, AuthService {
             token.setRevoked(true);
         });
         tokenRepository.saveAll(validUserTokens);
+    }
+
+    private boolean usernameValidation(String username) {
+        Optional<UserEntity> optUser = userRepository.findByUsername(username);
+        return optUser.isPresent();
+    }
+
+    private boolean medIdValidation(Long medId) {
+        Optional<UserEntity> optUser = userRepository.findByMedId(medId);
+        return optUser.isPresent();
     }
 }

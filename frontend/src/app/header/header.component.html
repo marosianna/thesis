@@ -13,9 +13,12 @@
         <li class="nav-item" *ngIf="!(loggedInUser)">
           <a class="nav-link" [routerLink]="'/register'">Registration</a>
         </li>
-        <li class="nav-item"  *ngIf="loggedInUser">
-            <a class="nav-link" [routerLink]="'/examination'">My appointments</a>
+        <li class="nav-item"  *ngIf="loggedInUser && !loggedInUserIsAdmin">
+            <a class="nav-link" [routerLink]="'/user/examination'">My appointments</a>
         </li>
+        <li class="nav-item"  *ngIf="loggedInUser && loggedInUserIsAdmin">
+          <a class="nav-link" [routerLink]="'/admin/examination'">Appointments</a>
+      </li>
       </ul>
     </div>
 </nav>

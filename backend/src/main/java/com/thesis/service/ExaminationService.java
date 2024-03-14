@@ -3,7 +3,7 @@ package com.thesis.service;
 import com.thesis.dto.CreateExaminationDto;
 import com.thesis.dto.ExaminationByFilterDto;
 import com.thesis.dto.ExaminationResponse;
-import com.thesis.dto.ExaminationTableDataResponse;
+import com.thesis.dto.ExaminationResponse;
 import com.thesis.entity.ExaminationEntity;
 import com.thesis.entity.Time;
 
@@ -21,9 +21,7 @@ public interface ExaminationService {
 
     Long deleteById(Long id);
 
-    List<ExaminationTableDataResponse> getAllByUser();
-
-    List<ExaminationEntity> getAllByFilter(ExaminationByFilterDto dto);
+    List<ExaminationResponse> getAllByUser();
 
     ExaminationResponse update(Long id, CreateExaminationDto dto);
 

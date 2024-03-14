@@ -17,6 +17,8 @@ export class UserService extends BaseRequestService {
     super(http);
   }
 
+  //TODO : erre írni backend apit
+
   refreshToken(token: any) {
     return this.sendPost('api/refresh/', {refresh_token: token});
   }
@@ -46,13 +48,8 @@ export class UserService extends BaseRequestService {
     return this.sendPost(this.authUrl + '/admin/register', val);
   }
 
-  getLoggedInUser(): any {
-    const user = localStorage.getItem(this.USER_KEY);
-    if (user) {
-      return user;
-    }
-
-    return {};
+  isAdmin(): any {
+    return this.sendGet(this.authUrl + '/is-admin');
   }
 
 

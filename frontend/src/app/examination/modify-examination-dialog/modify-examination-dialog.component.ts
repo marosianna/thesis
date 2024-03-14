@@ -40,7 +40,7 @@ export class ModifyExaminationDialogComponent implements OnInit {
 
     this.newExaminationForm = this.formBuilder.group({
       referralNumber: [{value: this.data.examination.referralNumber, disabled: true}, Validators.required],
-      examinationType: [this.data.examination.examinationType, Validators.required],
+      examinationType: [this.data.examination.type, Validators.required],
       date: [this.data.examination.date, Validators.required],
       time: [this.data.examination.time, Validators.required] 
     });

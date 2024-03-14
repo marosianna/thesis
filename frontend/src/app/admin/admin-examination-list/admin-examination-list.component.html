@@ -1,0 +1,74 @@
+<ng-content></ng-content>
+<div class="main_component div-flex">
+    <mat-card class="div-flex">
+      <div class="search-bar">
+        <form [formGroup]="searchExaminationForm" id="new_examination_form">
+            <mat-form-field>
+              <input matInput placeholder="Referral number" name="referralNumber" formControlName="referralNumber" >
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Taj number" name="medId" formControlName="medId" >
+              </mat-form-field>
+            <mat-form-field>
+            <mat-select placeholder="Type" name="type" formControlName="examinationType" >
+              <mat-option *ngFor="let type of examinationTypes | keyvalue" [value]="type.key">{{ type.value }}</mat-option>
+            </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-select placeholder="Status" name="status" formControlName="examinationStatus" >
+                  <mat-option *ngFor="let status of examinationStatus | keyvalue" [value]="status.key">{{ status.value }}</mat-option>
+                </mat-select>
+                </mat-form-field>
+            <mat-form-field>
+              <input matInput [matDatepicker]="picker" placeholder="Choose a date" formControlName="date" >
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-select matInput formControlName="time" name="time" placeholder="Choose a time" >
+                <mat-option *ngFor="let time of timeSlots | keyvalue"  [value]="time.key" >{{ time.value }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          <br>
+            <button mat-raised-button color="btn-outline-primary" (click)="loadExaminations()">Search</button>
+            <button mat-raised-button color="btn-outline-primary" (click)="deleteFilters()">Delete filters</button>
+          </form>
+      </div>
+        <mat-card-header>
+            <mat-card-title>
+                Appointments
+            </mat-card-title>
+        </mat-card-header>
+        <div><button class="btn btn-outline-primary" (click)="openPopup()">New appointment</button></div>
+        <div class="div-flex" *ngIf="examinationResponseByFilter.length">
+            <table class="table mat-table">
+                <thead>
+                <tr>
+                    <th scope="col">Referral number</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Frist name</th>
+                    <th scope="col">Last name</th>
+                    <th scope="col">Taj number</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+                <tr *ngFor="let examinationResponse of examinationResponseByFilter">
+                    <td scope="row">{{examinationResponse.referralNumber}}</td>
+                    <td scope="row">{{examinationResponse.type | enumValueByKeyType}}</td>
+                    <td scope="row">{{examinationResponse.status | enumValueByKeyStatus}}</td>
+                    <td scope="row">{{examinationResponse.date | date }}</td>
+                    <td scope="row">{{examinationResponse.time | enumValueByKey }}</td>
+                    <td scope="row">{{examinationResponse.firstName}}</td>
+                    <td scope="row">{{examinationResponse.lastName}}</td>
+                    <td scope="row">{{examinationResponse.medId}}</td>
+                    <td scope="row"><button class="btn btn-outline-primary" (click)="openModifyDialog(examinationResponse)">Modify</button></td>
+                    <td scope="row"><button class="btn btn-outline-danger" (click)="openDeleteDialog(examinationResponse)">Delete</button></td>
+                </tr>
+            </table>
+        </div>
+    </mat-card>
+    </div>

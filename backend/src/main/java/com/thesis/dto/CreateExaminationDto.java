@@ -20,5 +20,6 @@ public class CreateExaminationDto {
     private ExaminationType examinationType;
     private LocalDate date;
     private Time time;
+    private Long medId;
 
 }

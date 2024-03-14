@@ -13,15 +13,13 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { ExaminationComponent } from './examination.component';
 import { NewExaminationDialogComponent } from './new-examination-dialog/new-examination-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import {MatInputModule} from '@angular/material/input';
+import { MatInputModule} from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { EnumValueByKeyPipe } from '../pipes/EnumValueByKeyPipe';
-import { TypeByKeyPipe } from '../pipes/TypeByKeyPipe';
-import { StatusByKeyPipe } from '../pipes/StatusByKeyPipe';
 import { DeleteExaminationDialogComponent } from './delete-examination-dialog/delete-examination-dialog.component';
 import { ModifyExaminationDialogComponent } from './modify-examination-dialog/modify-examination-dialog.component';
 import { MessagesModule } from 'primeng/messages';
 import {ToastModule} from 'primeng/toast';
+import { SharedPipesModule } from '../pipes/shared-pipes/shared-pipes.module';
 
 
 @NgModule({
@@ -29,9 +27,6 @@ import {ToastModule} from 'primeng/toast';
     ExaminationListComponent,
     ExaminationComponent,
     NewExaminationDialogComponent,
-    EnumValueByKeyPipe,
-    TypeByKeyPipe,
-    StatusByKeyPipe,
     DeleteExaminationDialogComponent,
     ModifyExaminationDialogComponent,
   ],
@@ -51,7 +46,8 @@ import {ToastModule} from 'primeng/toast';
     MatDatepickerModule,
     MatNativeDateModule,
     MessagesModule,
-    ToastModule
+    ToastModule,
+    SharedPipesModule
     ]
 })
 export class ExaminationModule { }

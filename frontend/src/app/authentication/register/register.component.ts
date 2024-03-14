@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { Message } from 'primeng/api';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -21,7 +22,8 @@ export class RegisterComponent {
 
   public messages: Message[] = [];
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService,
+              private router : Router) { }
 
   onSubmitUserRegister(){
 
@@ -36,6 +38,8 @@ export class RegisterComponent {
 
     this.userService.createUser(val).subscribe(res => {
       this.messages = [{ severity: 'success', summary: "Registration is successful!"}];
+      sessionStorage.setItem('role', res.role)
+      this.router.navigate(['/user/examination']);
     },
     (error: any) => {
       console.log(error.error.message);

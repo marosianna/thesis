@@ -54,6 +54,9 @@ export class ExaminationListComponent implements OnInit, OnChanges{
         examinations : this.examinations
       }
     });
+    dialogRef.afterClosed().subscribe(res => {
+      this.loadExaminations();
+    });
   }
 
   openDeleteDialog(examination: Examination) {
@@ -63,7 +66,10 @@ export class ExaminationListComponent implements OnInit, OnChanges{
         examination : examination,
         examinations : this.examinations
       }
-    })
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      this.loadExaminations();
+    });
   }
 
   openModifyDialog(examination: Examination) {
@@ -73,7 +79,10 @@ export class ExaminationListComponent implements OnInit, OnChanges{
         examination : examination,
         examinations : this.examinations
       }
-    })
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      this.loadExaminations();
+    });
   }
 
 }

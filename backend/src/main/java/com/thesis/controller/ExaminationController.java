@@ -3,7 +3,7 @@ package com.thesis.controller;
 import com.thesis.dto.CreateExaminationDto;
 import com.thesis.dto.ExaminationByFilterDto;
 import com.thesis.dto.ExaminationResponse;
-import com.thesis.dto.ExaminationTableDataResponse;
+import com.thesis.dto.ExaminationResponse;
 import com.thesis.entity.ExaminationEntity;
 import com.thesis.entity.Time;
 import com.thesis.service.ExaminationService;
@@ -56,16 +56,9 @@ public class ExaminationController {
 
     @ApiResponses(value = {@ApiResponse(responseCode = "200"), @ApiResponse(responseCode = "400"), @ApiResponse(responseCode = "404")})
     @GetMapping(value = "/by-user", produces = "application/json;charset=UTF-8")
-    public ResponseEntity<List<ExaminationTableDataResponse>> getAllByUserId(
+    public ResponseEntity<List<ExaminationResponse>> getAllByUserId(
     ) {
         return ResponseEntity.ok(examinationService.getAllByUser());
-    }
-
-    @PostMapping("/by-filter")
-    public ResponseEntity<List<ExaminationEntity>> getAllByFilter(
-            @RequestBody ExaminationByFilterDto dto
-            ) {
-        return ResponseEntity.ok(examinationService.getAllByFilter(dto));
     }
 
     @DeleteMapping("/{id}")

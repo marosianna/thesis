@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Message } from 'primeng/api';
 import { UserService } from 'src/app/services/user.service';
 
@@ -21,7 +22,8 @@ export class AdminRegisterComponent {
 
   public messages: Message[] = [];
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService,
+              private router: Router) { }
 
   onSubmitAdminRegister(){
 
@@ -36,6 +38,8 @@ export class AdminRegisterComponent {
 
     this.userService.createAdmin(val).subscribe(res => {
       this.messages = [{ severity: 'success', summary: "Registration is successful!"}];
+      sessionStorage.setItem('role', res.role)
+      this.router.navigate(['/admin/examination']);
     },
     (error: any) => {
       console.log(error.error.message);

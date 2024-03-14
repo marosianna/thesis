@@ -37,5 +37,9 @@ export class TokenService {
     localStorage.setItem(this.USER_KEY, JSON.stringify(user));
   }
 
+  getrole(){
+    return sessionStorage.getItem('role')!=null?sessionStorage.getItem('role')?.toString():'';
+  }
+
 }
 

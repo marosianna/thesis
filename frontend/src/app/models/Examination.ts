@@ -8,7 +8,7 @@ export interface Examination {
     referralNumber: string;
     type: ExaminationType;
     status: ExaminationStatus;
-    user: User;
+    user?: User;
     date: Date;
     time: TimeSlot;
 }

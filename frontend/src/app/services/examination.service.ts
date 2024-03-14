@@ -19,7 +19,6 @@ export class ExaminationService extends BaseRequestService{
     
   }
 
-  public show_summary: boolean = false;
   url = 'api/examination';
 
   create(val: any) {

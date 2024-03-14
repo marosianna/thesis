@@ -3,7 +3,7 @@ package com.thesis.service;
 import com.thesis.dto.CreateExaminationDto;
 import com.thesis.dto.ExaminationByFilterDto;
 import com.thesis.dto.ExaminationResponse;
-import com.thesis.dto.ExaminationTableDataResponse;
+import com.thesis.dto.ExaminationResponse;
 import com.thesis.entity.*;
 import com.thesis.exception.AppException;
 import com.thesis.mapper.ExaminationMapper;
@@ -11,6 +11,7 @@ import com.thesis.repository.ExaminationRepository;
 import com.thesis.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -46,7 +47,13 @@ public class ExaminationServiceImpl implements ExaminationService{
         ExaminationEntity examination = new ExaminationEntity();
         examination.setExaminationType(dto.getExaminationType());
         examination.setExaminationStatus(ExaminationStatus.IN_PROGRESS);
-        examination.setUser(getCurrentLoggedInUser());
+        if (dto.getMedId() == null) {
+            examination.setUser(getCurrentLoggedInUser());
+        } else {
+            Optional<UserEntity> user = userRepository.findByMedId(dto.getMedId());
+            user.ifPresent(examination::setUser);
+        }
+
         examination.setDate(dto.getDate().plusDays(1));
         examination.setTime(dto.getTime());
         examination.setReferralNumber(dto.getReferralNumber());
@@ -88,20 +95,10 @@ public class ExaminationServiceImpl implements ExaminationService{
     }
 
     @Override
-    public List<ExaminationTableDataResponse> getAllByUser() {
+    public List<ExaminationResponse> getAllByUser() {
         UserEntity loggedInUser = getCurrentLoggedInUser();
         List<ExaminationEntity> examinations = examinationRepository.findAllByUserId(loggedInUser.getId());
-        return examinationMapper.mapToTableDataResponseList(examinations);
-    }
-
-    @Override
-    public List<ExaminationEntity> getAllByFilter(ExaminationByFilterDto dto) {
-        return examinationRepository.findByFilter(
-                dto.getStatus(),
-                dto.getType(),
-                dto.getFromDate(),
-                dto.getToDate()
-        );
+        return examinationMapper.mapToExaminationResponseList(examinations);
     }
 
     @Override
@@ -111,19 +108,24 @@ public class ExaminationServiceImpl implements ExaminationService{
             return null;
         }
         //validation for date: available or not
-        if (timeValidation(dto.getDate(), dto.getTime())) {
+        if (!dto.getDate().isEqual(byId.get().getDate()) && timeValidation(dto.getDate(), dto.getTime())) {
             throw new AppException("This time is not available!");
         }
 
         //validation for type: cant be 2 same type for one user
-        if (typeValidation(getCurrentLoggedInUser(), dto.getExaminationType())) {
+        if (!dto.getExaminationType().equals(byId.get().getExaminationType()) && typeValidation(getCurrentLoggedInUser(), dto.getExaminationType())) {
             throw new AppException("Cannot have more than one examination of the same type.");
         }
 
         ExaminationEntity examination = byId.get();
         examination.setExaminationType(dto.getExaminationType());
         examination.setExaminationStatus(ExaminationStatus.MODIFIED);
-        examination.setUser(getCurrentLoggedInUser());
+        if (dto.getMedId() == null) {
+            examination.setUser(getCurrentLoggedInUser());
+        } else {
+            Optional<UserEntity> user = userRepository.findByMedId(dto.getMedId());
+            user.ifPresent(examination::setUser);
+        }
         examination.setDate(dto.getDate().plusDays(1));
         examination.setReferralNumber(dto.getReferralNumber());
         examination.setTime(dto.getTime());

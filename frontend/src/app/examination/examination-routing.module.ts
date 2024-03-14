@@ -6,8 +6,8 @@ import { NewExaminationDialogComponent } from './new-examination-dialog/new-exam
 
 const routes: Routes = [
   { path: 'examination-list', component: ExaminationListComponent, canActivate: [AuthGuard] },
-  { path: '', component: ExaminationListComponent},
-  { path: '**', component: ExaminationListComponent},
+  { path: '', component: ExaminationListComponent, canActivate: [AuthGuard]},
+  { path: '**', component: ExaminationListComponent, canActivate: [AuthGuard]},
 ];
 
 @NgModule({

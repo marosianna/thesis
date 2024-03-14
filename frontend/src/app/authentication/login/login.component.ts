@@ -18,7 +18,9 @@ export class LoginComponent {
 
   public messages: Message[] = [];
 
-  constructor(private userService: UserService, private tokenService: TokenService, private router: Router) {}
+  constructor(private userService: UserService, private tokenService: TokenService, private router: Router) {
+    //sessionStorage.clear();
+  }
 
   onSubmitUserLogin(): void {
     if(this.username === '' || this.password === ''){
@@ -30,7 +32,8 @@ export class LoginComponent {
           this.tokenService.saveAccessToken(response.access_token);
           this.tokenService.saveRefreshToken(response.refresh_token);
           this.tokenService.saveUser(response);
-          this.router.navigate(['/examination']);
+          sessionStorage.setItem('role', response.role)
+          this.router.navigate(['/user/examination']);
       },
       (error: any) => {
         console.log(error.error.message);

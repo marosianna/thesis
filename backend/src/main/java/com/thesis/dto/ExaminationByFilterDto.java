@@ -2,6 +2,7 @@ package com.thesis.dto;
 
 import com.thesis.entity.ExaminationStatus;
 import com.thesis.entity.ExaminationType;
+import com.thesis.entity.Time;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +19,9 @@ public class ExaminationByFilterDto {
 
     private ExaminationStatus status;
     private ExaminationType type;
-    private LocalDate fromDate;
-    private LocalDate toDate;
+    private Long medId;
+    private String referralNumber;
+    private LocalDate date;
+    private Time time;
 
 }

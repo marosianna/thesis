@@ -64,6 +64,7 @@ public class AuthServiceImpl implements LogoutHandler, AuthService {
                 .builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
+                .role(user.getRole())
                 .build();
 
     }
@@ -84,6 +85,7 @@ public class AuthServiceImpl implements LogoutHandler, AuthService {
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
+                .role(user.getRole())
                 .build();
     }
 
@@ -114,6 +116,7 @@ public class AuthServiceImpl implements LogoutHandler, AuthService {
                 .builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
+                .role(user.getRole())
                 .build();
 
     }
@@ -134,6 +137,7 @@ public class AuthServiceImpl implements LogoutHandler, AuthService {
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
+                .role(user.getRole())
                 .build();
     }
 
@@ -157,6 +161,12 @@ public class AuthServiceImpl implements LogoutHandler, AuthService {
             tokenRepository.save(storedToken);
             SecurityContextHolder.clearContext();
         }
+    }
+
+    @Override
+    public boolean isAdmin() {
+        Role role = getCurrentLoggedInUser().getRole();
+        return role.equals(Role.ADMIN);
     }
 
     /*
@@ -213,5 +223,12 @@ public class AuthServiceImpl implements LogoutHandler, AuthService {
     private boolean medIdValidation(Long medId) {
         Optional<UserEntity> optUser = userRepository.findByMedId(medId);
         return optUser.isPresent();
+    }
+
+    private UserEntity getCurrentLoggedInUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Optional<UserEntity> user = userRepository.findByUsername(authentication.getName());
+        return user.orElse(null);
+
     }
 }

@@ -1,6 +1,7 @@
 package com.thesis.auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.thesis.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,4 +17,6 @@ public class AuthenticationResponse {
     private String accessToken;
     @JsonProperty("refresh_token")
     private String refreshToken;
+    @JsonProperty("role")
+    private Role role;
 }

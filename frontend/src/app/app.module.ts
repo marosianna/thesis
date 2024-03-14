@@ -18,6 +18,9 @@ import {MatIconModule} from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthInterceptor } from './auth-config/auth.interceptor';
+import { AdminComponent } from './admin/admin.component';
+import { AdminGuard } from './auth-config/admin-guard';
+
 
 @NgModule({
   declarations: [
@@ -25,7 +28,9 @@ import { AuthInterceptor } from './auth-config/auth.interceptor';
     UserComponent,
     WelcomePageComponent,
     ButtonsComponent,
-    HeaderComponent
+    HeaderComponent,
+    AdminComponent,
+   
   ],
   imports: [
     BrowserModule,

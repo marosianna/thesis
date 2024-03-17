@@ -1,0 +1,43 @@
+<div class="messages-container">
+    <p-messages [(value)]="messages" [enableService]="false" [closable]="true"></p-messages>
+  </div>
+  <button class="btn btn-primary btn-block mb-4" [routerLink]="'/admin/register'">Switch to Admin</button>
+<div class="row justify-content-center">
+    <div class="col-4">
+        <div>
+            <form class="form" id="register_form" [formGroup]="signUpForm" (ngSubmit)="onSubmitUserRegister()">
+                <div class="form-outline mb-4">
+                    <input type="text" id="medId" name="medId" class="form-control" placeholder="Taj number" formControlName="medId" />
+                    <label class="form-label" for="medId">Taj number</label>
+                </div>
+        
+                  <div class="form-outline mb-4">
+                    <input type="text" id="firstName" name="firstName" class="form-control" placeholder="Frist name" formControlName="firstName" required />
+                    <label class="form-label" for="firstName">First name</label>
+                  </div>
+        
+                  <div class="form-outline mb-4">
+                    <input type="text" id="lastName" name="lastName" class="form-control" placeholder="Last name" formControlName="lastName" required />
+                    <label class="form-label" for="lastName">Last name</label>
+                  </div>
+        
+                  <div class="form-outline mb-4">
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Username" formControlName="username" required/>
+                    <label class="form-label" for="username">Username</label>
+                  </div>
+                  <div class="form-outline mb-4">
+                    <input type="text" id="email" name="email" class="form-control" placeholder="Email" formControlName="email" required/>
+                    <label class="form-label" for="email">Email</label>
+                  </div>
+        
+                  <div class="form-outline mb-4">
+                    <input type="password" id="registerPassword" name="password" class="form-control" placeholder="Password" formControlName="password" required/>
+                    <label class="form-label" for="registerPassword">Password</label>
+                  </div>
+                
+                <button class="btn btn-primary btn-block mb-3" type="submit" >Registration</button>
+                <button class="btn btn-primary btn-block mb-3" [routerLink]="['']" >Go back</button>
+            </form>
+          </div>
+    </div>
+</div>

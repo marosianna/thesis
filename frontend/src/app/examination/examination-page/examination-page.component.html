@@ -1,0 +1,38 @@
+<mat-dialog-content>
+    <h2>My appointment</h2>
+        <table class="table mat-table">
+            <thead>
+            <tr>
+                <th scope="col">Referral number</th>
+                <th scope="col">Type</th>
+                <th scope="col">Status</th>
+                <th scope="col">Date</th>
+                <th scope="col">Time</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+            <tr *ngIf="examination">
+                <td scope="row">{{examination.referralNumber}}</td>
+                <td scope="row">{{examination.type | enumValueByKeyType}}</td>
+                <td scope="row">{{examination.status | enumValueByKeyStatus}}</td>
+                <td scope="row">{{examination.date | date }}</td>
+                <td scope="row">{{examination.time | enumValueByKey }}</td>
+                <td scope="row" *ngIf="adminId !== null">
+                    <label for="files" class="btn btn-primary">Upload result</label>
+                    <input class="form-control" type="file" id="files" style="visibility:hidden;" 
+                            (change)="onChange($event)"> 
+                        <p *ngIf="uploadedFileName">{{ uploadedFileName }}</p>
+                </td>
+                <td scope="row" *ngIf="adminId !== null" >
+                    <button class="btn btn-danger" (click)="deleteUploadedFile()">Delete uploaded file</button>
+                </td>
+            </tr>
+        </table>
+        <button (click)="onUpload()" *ngIf="adminId !== null" style="float: right;"
+            class="btn btn-success"> 
+            Save result
+        </button> 
+        <button class="btn btn-secondary" style="float: right;" (click)="close()">Cancel</button>
+        <button class="btn btn-primary" style="float: right;" (click)="onDownload()" *ngIf="resultByExamination !== null">Download file</button>
+  </mat-dialog-content>

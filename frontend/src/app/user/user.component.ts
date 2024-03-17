@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../model/User';
-import { UserService } from '../service/user.service';
-import { AxiosService } from '../service/axios.service';
+import { User } from '../models/User';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-user',
@@ -9,7 +8,7 @@ import { AxiosService } from '../service/axios.service';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent {
-
+/*
   componentToShow: string = 'welcome';
  
   constructor(private userService: UserService,
@@ -74,6 +73,7 @@ export class UserComponent {
             console.error("Logout failed:", error);
         }
     );
+    
 }
 
   onRegister(input: any): void {
@@ -125,4 +125,5 @@ export class UserComponent {
       }
   );
   }
+  */
 }

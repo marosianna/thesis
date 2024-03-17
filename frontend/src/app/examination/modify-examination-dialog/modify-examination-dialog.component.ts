@@ -60,7 +60,6 @@ export class ModifyExaminationDialogComponent implements OnInit {
     }
     this.examinations.push(res);
     this.dialogRef.close();
-    this.dialogRef.close();
     },
     (error: any) => {
       console.log(error.error.message);

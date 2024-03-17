@@ -27,4 +27,6 @@ public interface ExaminationService {
 
     Set<Time> getNotAvailableTimesByDate(LocalDate date);
 
+    Long getAdmin();
+
 }

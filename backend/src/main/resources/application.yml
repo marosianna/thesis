@@ -1,4 +1,7 @@
 spring:
+  servlet:
+    multipart:
+      enabled: true
   jpa:
     hibernate:
       ddl-auto: update

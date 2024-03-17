@@ -49,3 +49,13 @@ div {
   .mat-table tr:hover {
     background-color: #a6c1ca;
   }
+
+  a {
+    text-decoration: none;
+    background-color: transparent;
+   
+}
+
+  a:hover, a:active{
+    cursor: pointer;
+}

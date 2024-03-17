@@ -34,6 +34,10 @@ public interface ExaminationRepository extends JpaRepository<ExaminationEntity, 
     List<ExaminationEntity> findAllByUserId(Long userId);
 
     @Query("select e from ExaminationEntity e where "
+            + "e.referralNumber = :referralNumber")
+    Optional<ExaminationEntity> findByReferralNumber(String referralNumber);
+
+    @Query("select e from ExaminationEntity e where "
     + "e.date = :date")
     List<ExaminationEntity> findAllByDate(LocalDate date);
 

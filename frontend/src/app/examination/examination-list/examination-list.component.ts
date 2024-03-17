@@ -8,6 +8,7 @@ import { NewExaminationDialogComponent } from '../new-examination-dialog/new-exa
 import { DeleteExaminationDialogComponent } from '../delete-examination-dialog/delete-examination-dialog.component';
 import { ModifyExaminationDialogComponent } from '../modify-examination-dialog/modify-examination-dialog.component';
 import { Message } from 'primeng/api';
+import { ExaminationPageComponent } from '../examination-page/examination-page.component';
 
 @Component({
   selector: 'app-examination-list',
@@ -19,7 +20,6 @@ export class ExaminationListComponent implements OnInit, OnChanges{
   examinations: Examination [] = [];
   public messages: Message[] = [];
 
-
   constructor(private examinationService: ExaminationService,
               private userService: UserService,
               private router: Router,
@@ -30,8 +30,9 @@ export class ExaminationListComponent implements OnInit, OnChanges{
   ngOnChanges(changes: SimpleChanges): void {
     this.loadExaminations();  }
 
+
   ngOnInit(): void {
-   this.loadExaminations();
+    this.loadExaminations();
   }
 
   loadExaminations(): void {
@@ -85,4 +86,15 @@ export class ExaminationListComponent implements OnInit, OnChanges{
     });
   }
 
+  openPage(examination: Examination){
+    const dialogRef = this.dialog.open(ExaminationPageComponent, {
+      width: '1000px',
+      data: {
+        examination : examination 
+      }
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      this.loadExaminations();
+    });
+  }
 }

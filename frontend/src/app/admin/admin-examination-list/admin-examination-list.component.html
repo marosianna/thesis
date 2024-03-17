@@ -54,6 +54,7 @@
                     <th scope="col">Taj number</th>
                     <th scope="col"></th>
                     <th scope="col"></th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
                 <tr *ngFor="let examinationResponse of examinationResponseByFilter">
@@ -65,6 +66,11 @@
                     <td scope="row">{{examinationResponse.firstName}}</td>
                     <td scope="row">{{examinationResponse.lastName}}</td>
                     <td scope="row">{{examinationResponse.medId}}</td>
+                    <td scope="row">
+                      <a  (click)="openPage(examinationResponse)">
+                          <mat-icon>visibility</mat-icon>
+                      </a>
+                    </td>
                     <td scope="row"><button class="btn btn-outline-primary" (click)="openModifyDialog(examinationResponse)">Modify</button></td>
                     <td scope="row"><button class="btn btn-outline-danger" (click)="openDeleteDialog(examinationResponse)">Delete</button></td>
                 </tr>

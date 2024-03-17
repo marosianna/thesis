@@ -21,9 +21,13 @@ export class AuthGuard implements CanActivate {
   */
 
   constructor(private tokenService: TokenService, private router: Router, private userService: UserService) { }
+
+  
+
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
+      
   
     if (this.userService.isUserLoggedIn()) {
       if (route.url.length > 0) {
@@ -61,4 +65,7 @@ export class AuthGuard implements CanActivate {
     }
     
   }
+
+  
+
 }

@@ -54,4 +54,8 @@ export class ExaminationService extends BaseRequestService{
   getAvailableTimes(date: Date) {
     return this.sendPost(this.url + '/available-times', date);
   }
+
+  getAdmin(): Observable<any> {
+    return this.sendPost(this.url + '/get-admin');
+  }
 }

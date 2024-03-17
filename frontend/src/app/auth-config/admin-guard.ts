@@ -7,11 +7,11 @@ import { TokenService } from '../services/token.service';
 @Injectable({
     providedIn: 'root'
   })
-  export class AdminGuard implements CanActivate {
+  export class AdminGuard {
   
     constructor(private userService: UserService, private router: Router) {}
   
-    canActivate(
+/*    canActivate(
       next: ActivatedRouteSnapshot,
       state: RouterStateSnapshot): boolean {
       if (this.userService.isAdmin()) {
@@ -21,5 +21,5 @@ import { TokenService } from '../services/token.service';
         return false;
       }
     }
-    
+    */
   }

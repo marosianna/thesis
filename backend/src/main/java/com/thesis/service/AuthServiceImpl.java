@@ -2,8 +2,8 @@ package com.thesis.service;
 
 import com.thesis.auth.AuthenticationRequest;
 import com.thesis.auth.AuthenticationResponse;
-import com.thesis.config.JwtService;
 import com.thesis.auth.RegisterRequest;
+import com.thesis.config.JwtService;
 import com.thesis.entity.Role;
 import com.thesis.entity.TokenEntity;
 import com.thesis.entity.TokenType;
@@ -13,22 +13,22 @@ import com.thesis.repository.TokenRepository;
 import com.thesis.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.var;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AuthServiceImpl implements LogoutHandler, AuthService {
 
     private final UserRepository userRepository;
@@ -71,13 +71,21 @@ public class AuthServiceImpl implements LogoutHandler, AuthService {
 
     @Override
     public AuthenticationResponse login(AuthenticationRequest request) {
-    authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(
-                    request.getUsername(),
-                    request.getPassword()
-            )
-    );
-    var user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getUsername(),
+                            request.getPassword()
+                    )
+            );
+        } catch (Exception e) {
+            throw new AppException("Bad credentials!");
+        }
+
+        var user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new AppException("User not found"));
+        if (!Role.USER.equals(user.getRole())) {
+            throw new AppException("You don't have user permission!");
+        }
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);
@@ -123,13 +131,20 @@ public class AuthServiceImpl implements LogoutHandler, AuthService {
 
     @Override
     public AuthenticationResponse loginAdmin(AuthenticationRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getUsername(),
-                        request.getPassword()
-                )
-        );
-        var user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getUsername(),
+                            request.getPassword()
+                    )
+            );
+        } catch (Exception e) {
+            throw new AppException("Bad credentials!");
+        }
+        var user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new AppException("User not found"));
+        if (!Role.ADMIN.equals(user.getRole())) {
+           throw new AppException("You don't have admin permission!");
+        }
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);
@@ -163,11 +178,7 @@ public class AuthServiceImpl implements LogoutHandler, AuthService {
         }
     }
 
-    @Override
-    public boolean isAdmin() {
-        Role role = getCurrentLoggedInUser().getRole();
-        return role.equals(Role.ADMIN);
-    }
+
 
     /*
     @Override

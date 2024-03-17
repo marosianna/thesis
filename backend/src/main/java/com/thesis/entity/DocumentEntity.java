@@ -6,13 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "Document")
-public class DocumentEntity {
+public class DocumentEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +23,7 @@ public class DocumentEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "file", nullable = false)
+    @Column(name = "file", columnDefinition = "BLOB")
     private byte[] file;
 
     @OneToOne(fetch = FetchType.LAZY)

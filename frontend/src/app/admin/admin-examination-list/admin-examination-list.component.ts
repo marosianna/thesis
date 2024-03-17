@@ -13,6 +13,7 @@ import { UserService } from 'src/app/services/user.service';
 import { AdminNewExaminationDialogComponent } from '../admin-new-examination-dialog/admin-new-examination-dialog.component';
 import { AdminDeleteExaminationDialogComponent } from '../admin-delete-examination-dialog/admin-delete-examination-dialog.component';
 import { AdminModifyExaminationDialogComponent } from '../admin-modify-examination-dialog/admin-modify-examination-dialog.component';
+import { ExaminationPageComponent } from 'src/app/examination/examination-page/examination-page.component';
 
 @Component({
   selector: 'app-admin-examination-list',
@@ -143,6 +144,19 @@ export class AdminExaminationListComponent implements OnInit, OnChanges {
       data: {
         examination : this.convertToExamination(examinationResponseByFilter),
         examinations : this.examinations,
+        medId: examinationResponseByFilter.medId
+      }
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      this.loadExaminations();
+    });
+  }
+
+  openPage(examinationResponseByFilter: ExaminationResponseByFilter){
+    const dialogRef = this.dialog.open(ExaminationPageComponent, {
+      width: '1000px',
+      data: {
+        examination : this.convertToExamination(examinationResponseByFilter),
         medId: examinationResponseByFilter.medId
       }
     });

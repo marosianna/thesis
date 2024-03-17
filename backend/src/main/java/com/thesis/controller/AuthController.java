@@ -62,11 +62,6 @@ public class AuthController {
         authService.logout(request,response,authentication);
     }
 
-    @GetMapping("/is-admin")
-    public ResponseEntity<Boolean> isAdmin() {
-        return ResponseEntity.ok(authService.isAdmin());
-    }
-
     /*
     @PatchMapping("/change-password")
     public ResponseEntity<?> changePassword(

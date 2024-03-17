@@ -20,6 +20,7 @@ import { ModifyExaminationDialogComponent } from './modify-examination-dialog/mo
 import { MessagesModule } from 'primeng/messages';
 import {ToastModule} from 'primeng/toast';
 import { SharedPipesModule } from '../pipes/shared-pipes/shared-pipes.module';
+import { ExaminationPageComponent } from './examination-page/examination-page.component';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { SharedPipesModule } from '../pipes/shared-pipes/shared-pipes.module';
     NewExaminationDialogComponent,
     DeleteExaminationDialogComponent,
     ModifyExaminationDialogComponent,
+    ExaminationPageComponent,
   ],
   imports: [
     CommonModule,

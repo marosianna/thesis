@@ -4,11 +4,8 @@ import com.thesis.dto.CreateExaminationDto;
 import com.thesis.dto.ExaminationByFilterDto;
 import com.thesis.dto.ExaminationResponse;
 import com.thesis.dto.ExaminationResponseByFilter;
-import com.thesis.entity.ExaminationEntity;
 import com.thesis.service.AdminService;
 import com.thesis.service.ExaminationService;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +30,6 @@ public class AdminController {
         return ResponseEntity.ok(adminService.getAllByFilter(dto));
     }
 
-    @ApiResponses(value = {@ApiResponse(responseCode = "200"), @ApiResponse(responseCode = "400"), @ApiResponse(responseCode = "404")})
     @PostMapping(value = "/create", produces = "application/json;charset=UTF-8")
     public ResponseEntity<ExaminationResponse> createExamination(
             @RequestBody CreateExaminationDto dto

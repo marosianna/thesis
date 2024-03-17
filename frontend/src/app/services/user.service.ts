@@ -48,11 +48,6 @@ export class UserService extends BaseRequestService {
     return this.sendPost(this.authUrl + '/admin/register', val);
   }
 
-  isAdmin(): any {
-    return this.sendGet(this.authUrl + '/is-admin');
-  }
-
-
   getUser(): any {
     const user = localStorage.getItem(this.USER_KEY);
     if (user) {

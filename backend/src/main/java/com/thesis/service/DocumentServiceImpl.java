@@ -1,10 +1,7 @@
 package com.thesis.service;
 
 import com.thesis.dto.UploadDocumentDto;
-import com.thesis.entity.DocumentEntity;
-import com.thesis.entity.ExaminationEntity;
-import com.thesis.entity.ResultEntity;
-import com.thesis.entity.UserEntity;
+import com.thesis.entity.*;
 import com.thesis.exception.AppException;
 import com.thesis.repository.DocumentRepository;
 import com.thesis.repository.ExaminationRepository;
@@ -23,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,11 +29,13 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class DocumentServiceImpl implements DocumentService{
 
@@ -51,11 +51,12 @@ public class DocumentServiceImpl implements DocumentService{
             Optional<ExaminationEntity> examination = examinationRepository.findById(Long.valueOf(examinationId));
             if (examination.isPresent()) {
                 fileName = examination.get().getReferralNumber() + "_" + examination.get().getExaminationType();
-            }
-            Files.write(Paths.get("src/main/resources/uploads/" + fileName), file.getBytes());
-            ResultEntity result = createResult(examinationId);
-            createDocument(file, result);
 
+                Files.write(Paths.get("src/main/resources/uploads/" + fileName), file.getBytes());
+                ResultEntity result = createResult(examinationId);
+                createDocument(file, result);
+                examination.get().setExaminationStatus(ExaminationStatus.CLOSED);
+            }
             return StringUtils.cleanPath(Objects.requireNonNull(fileName));
         } catch (IOException e) {
             throw new AppException("File upload failed!");
@@ -72,28 +73,25 @@ public class DocumentServiceImpl implements DocumentService{
         Path filePath = Paths.get("src/main/resources/uploads/").resolve(fileName).normalize();
         Resource resource = new org.springframework.core.io.UrlResource(filePath.toUri());
 
-        // Check if file exists
         if (!resource.exists()) {
             throw new RuntimeException("File not found: " + fileName);
         }
 
-        // Set Content-Disposition header to force download
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName);
 
-        // Return ResponseEntity with file data and headers
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(resource).getBody();    }
 
     @Override
-    public Optional<ResultEntity> getResultByExamination(Long id) {
-        Optional<ResultEntity> result = Optional.empty();
+    public Integer getResultByExamination(Long id) {
+        List<ResultEntity> results = new ArrayList<>();
         Optional<ExaminationEntity> examination = examinationRepository.findById(id);
         if (examination.isPresent()) {
-            result = resultRepository.findByExaminationId(examination.get().getId()).stream().findFirst();
+            results = resultRepository.findByExaminationId(examination.get().getId());
         }
-        return result;
+        return results.size();
     }
 
     private ResultEntity createResult(String examinationId) {

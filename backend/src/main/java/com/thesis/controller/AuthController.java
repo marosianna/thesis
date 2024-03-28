@@ -12,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
-
 
 @RequiredArgsConstructor
 @RestController
@@ -61,6 +59,7 @@ public class AuthController {
     ) {
         authService.logout(request,response,authentication);
     }
+
 
     /*
     @PatchMapping("/change-password")

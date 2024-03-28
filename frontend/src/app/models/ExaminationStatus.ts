@@ -1,6 +1,6 @@
 export enum ExaminationStatus {
-    IN_PROGRESS = "In progress",
-    MODIFIED = "Modified",
-    WAITING_FOR_RESULT = "Waiting for result",
-    CLOSED = "Closed"
+    IN_PROGRESS = "Folyamatban",
+    MODIFIED = "Módosítva",
+    WAITING_FOR_RESULT = "Eredményre vár",
+    CLOSED = "Lezárt"
 }

@@ -7,6 +7,8 @@ import com.thesis.entity.ExaminationEntity;
 import com.thesis.entity.ExaminationStatus;
 import com.thesis.entity.ExaminationType;
 import com.thesis.entity.Time;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -30,6 +32,10 @@ public interface ExaminationRepository extends JpaRepository<ExaminationEntity, 
             LocalDate fromDate,
             LocalDate toDate
     );
+
+    @Query("select e from ExaminationEntity e where "
+            + "e.date <= :now and e.examinationStatus = 'IN_PROGRESS'")
+    List<ExaminationEntity> findAllByDatesBefore(LocalDate now);
 
     List<ExaminationEntity> findAllByUserId(Long userId);
 

@@ -36,4 +36,9 @@ public class AdminController {
     ) {
         return ResponseEntity.ok(examinationService.createExamination(dto));
     }
+
+    @GetMapping(value = "/is-admin", produces = "application/json;charset=UTF-8")
+    public ResponseEntity<Boolean> isAdmin(){
+        return ResponseEntity.ok(adminService.isAdmin());
+    }
 }

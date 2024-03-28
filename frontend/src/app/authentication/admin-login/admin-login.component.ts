@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Role } from '../../models/Role';
-import { Message } from 'primeng/api';
+import { Message, MessageService } from 'primeng/api';
 import { UserService } from 'src/app/services/user.service';
 import { TokenService } from 'src/app/services/token.service';
 import { Router } from '@angular/router';
@@ -17,7 +17,8 @@ export class AdminLoginComponent {
 
   public messages: Message[] = [];
 
-  constructor(private userService: UserService, private tokenService: TokenService, private router: Router) {
+  constructor(private userService: UserService, private tokenService: TokenService, private router: Router,
+    private messageService: MessageService) {
     //sessionStorage.clear();
   }
 
@@ -40,45 +41,5 @@ export class AdminLoginComponent {
       }
       );
   }
-
-  
-/*
-  @Output() onSubmitAdminLoginEvent = new EventEmitter();
-  @Output() onSubmitAdminRegisterEvent = new EventEmitter();
-
-  active: string = "login";
-  medId: number | undefined;
-  firstName: string = "";
-  lastName: string = "";
-  username: string = "";
-  email: string = "";
-  password: string = "";
-  role: number = Role.Admin;
-
-
-  onSubmitAdminLogin(): void {
-    this.onSubmitAdminLoginEvent.emit({"username": this.username, "password": this.password});
-  }
-
-  onLoginTab(): void {
-    this.active = "login";
-  }
-
-  onRegisterTab(): void {
-    this.active = "register";
-  }
-
-  onSubmitAdminRegister(): void {
-    this.onSubmitAdminRegisterEvent.emit({
-      "medId": this.medId,
-      "firstName": this.firstName,
-      "lastName": this.lastName,
-      "username": this.username,
-      "email": this.email,
-      "password": this.password,
-      "role": this.role
-    })
-  }
-  */
 
 }

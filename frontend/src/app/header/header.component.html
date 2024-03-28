@@ -1,24 +1,44 @@
 <nav class="navbar navbar-expand-md navbar-light bg-light">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
+    <div  id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item active" *ngIf="!(loggedInUser)">
-          <a class="nav-link" [routerLink]="'/login'">Log in</a>
+          <a class="nav-link" [routerLink]="'/login'">Bejelentkezés</a>
         </li>
         <li class="nav-item"  *ngIf="loggedInUser">
-          <a class="nav-link" [routerLink]="'/logout'"(click)="logout()">Log out</a>
+          <a class="nav-link" [routerLink]="'/logout'"(click)="logout()">Kijelentkezés</a>
         </li>
         <li class="nav-item" *ngIf="!(loggedInUser)">
-          <a class="nav-link" [routerLink]="'/register'">Registration</a>
+          <a class="nav-link" [routerLink]="'/register'">Regisztráció</a>
         </li>
         <li class="nav-item"  *ngIf="loggedInUser && !loggedInUserIsAdmin">
-            <a class="nav-link" [routerLink]="'/user/examination'">My appointments</a>
+            <a class="nav-link" [routerLink]="'/user/examination'">Vizsgálati időpontjaim</a>
         </li>
         <li class="nav-item"  *ngIf="loggedInUser && loggedInUserIsAdmin">
-          <a class="nav-link" [routerLink]="'/admin/examination'">Appointments</a>
+          <a class="nav-link" [routerLink]="'/admin/examination'">Vizsgálati időpontok</a>
       </li>
       </ul>
     </div>
 </nav>
+<!--
+<mat-nav-list>
+  <a mat-list-item routerLink="/login" (click)="close()" *ngIf="!loggedInUser">
+      <mat-icon>login</mat-icon>
+      <span>Log in</span>
+  </a>
+  <a mat-list-item routerLink="/login" (click)="close(true)" *ngIf="loggedInUser">
+      <mat-icon>logout</mat-icon>
+      <span>Log out</span>
+  </a>
+  <a mat-list-item routerLink="/register" (click)="close()">
+      <mat-icon>app_registration</mat-icon>
+      <span>Registration</span>
+  </a>
+  <a mat-list-item routerLink="/user/examination" (click)="close()" *ngIf="loggedInUser && loggedInUserIsAdmin">
+      <mat-icon>grid_view</mat-icon>
+      <span>Appointments</span>
+  </a>
+  <a mat-list-item routerLink="/admin/examination" (click)="close()" *ngIf="loggedInUser && !loggedInUserIsAdmin">
+    <mat-icon>grid_view</mat-icon>
+      <span>My appointments </span>
+  </a>
+</mat-nav-list>-->

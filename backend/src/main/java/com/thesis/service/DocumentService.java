@@ -15,6 +15,6 @@ public interface DocumentService {
 
     Resource downloadFile(Long examinationId) throws IOException;
 
-    Optional<ResultEntity> getResultByExamination(Long id);
+    Integer getResultByExamination(Long id);
 
 }

@@ -3,25 +3,25 @@
     <mat-card class="div-flex">
         <mat-card-header>
             <mat-card-title>
-                My appointments
+                Vizsgálati időpontjaim
             </mat-card-title>
         </mat-card-header>
-        <div><button class="btn btn-outline-primary" (click)="openPopup()">New appointment</button></div>
+        <div><button class="btn btn-outline-primary" (click)="openPopup()">Új vizsgálati időpont felvétele</button></div>
         <div class="div-flex" *ngIf="examinations.length">
-            <table class="table mat-table">
+            <table class="table mat-table" >
                 <thead>
                 <tr>
-                    <th scope="col">Referral number</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Time</th>
+                    <th scope="col">Beutaló száma</th>
+                    <th scope="col">Vérvétel típusa</th>
+                    <th scope="col">Vizsgálat státusza</th>
+                    <th scope="col">Dátum</th>
+                    <th scope="col">Időpont</th>
                     <th scope="col"></th>
                     <th scope="col"></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
-                <tr *ngFor="let examination of examinations">
+                <tr *ngFor="let examination of this.pageSlice">
                     <td scope="row">{{examination.referralNumber}}</td>
                     <td scope="row">{{examination.type | enumValueByKeyType}}</td>
                     <td scope="row">{{examination.status | enumValueByKeyStatus}}</td>
@@ -32,10 +32,17 @@
                             <mat-icon>visibility</mat-icon>
                         </a>
                       </td>
-                      <td scope="row"><button class="btn btn-outline-primary" (click)="openModifyDialog(examination)">Modify</button></td>
-                    <td scope="row"><button class="btn btn-outline-danger" (click)="openDeleteDialog(examination)">Delete</button></td>
+                    <td scope="row"><button class="btn btn-outline-primary" [disabled]="!isModifiable(examination)" (click)="openModifyDialog(examination)">Módosítás</button></td>
+                    <td scope="row"><button class="btn btn-outline-danger" [disabled]="!isModifiable(examination)" (click)="openDeleteDialog(examination)">Törlés</button></td>
                 </tr>
             </table>
+            <mat-paginator 
+              [length]="this.examinations.length" 
+              
+              [pageSize]="5"  
+              (page)="onPageChange($event)">
+
+            </mat-paginator>
         </div>
     </mat-card>
     </div>

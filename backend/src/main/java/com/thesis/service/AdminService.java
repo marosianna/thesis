@@ -9,4 +9,6 @@ import java.util.List;
 public interface AdminService {
 
     List<ExaminationResponseByFilter> getAllByFilter(ExaminationByFilterDto dto);
+
+    boolean isAdmin();
 }

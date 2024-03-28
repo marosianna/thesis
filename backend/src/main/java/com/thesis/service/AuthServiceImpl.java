@@ -180,6 +180,8 @@ public class AuthServiceImpl implements LogoutHandler, AuthService {
 
 
 
+
+
     /*
     @Override
     public void changePassword(ChangePasswordRequest request, Principal connectedUser) {

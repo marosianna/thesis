@@ -27,8 +27,9 @@ export class ExaminationPageComponent implements OnInit{
 
   examination?: Examination;
   loggedInUserIsAdmin: boolean = false;
-  resultByExamination: any = null;
+  resultByExamination: number = 0;
   adminId: any = null;
+  isFileUploaded: boolean = false;
 
   constructor(
     private documentService: DocumentService,
@@ -44,11 +45,17 @@ export class ExaminationPageComponent implements OnInit{
     this.loggedInUserIsAdmin = this.tokenService.getrole() == 'ADMIN';
     this.getResult();
     this.getAdmin();
+    this.isFileUploaded = false;
   }
 
     onChange(event: any) { 
       this.file = event.target.files[0]; 
       this.uploadedFileName = event.target.files[0].name;
+      if (this.file) {
+        this.isFileUploaded = true;
+      } else {
+        this.isFileUploaded = false;
+      }
   } 
 
     close() {
@@ -64,6 +71,7 @@ export class ExaminationPageComponent implements OnInit{
   deleteUploadedFile(){
     this.file = undefined;
     this.uploadedFileName = null;
+    this.isFileUploaded = false;
   }
 
   onUpload() {
@@ -72,6 +80,10 @@ export class ExaminationPageComponent implements OnInit{
     }
 
     const formData:any = new FormData();
+    if (!this.file) {
+      this.messages = [{ severity: 'error', summary: 'Please select a file.'}];
+      return;
+    }
     formData.append('file', this.file, this.file?.name);
     formData.append('examinationId', JSON.stringify(val.examinationId));
 

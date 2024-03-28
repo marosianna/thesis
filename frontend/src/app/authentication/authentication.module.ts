@@ -8,6 +8,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
 import { AdminRegisterComponent } from './admin-register/admin-register.component';
 import { MessagesModule } from 'primeng/messages';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
 
 
 @NgModule({
@@ -22,7 +25,11 @@ import { MessagesModule } from 'primeng/messages';
     AuthenticationRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    MessagesModule
+    MessagesModule,
+    MatFormFieldModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatInputModule,
   ]
 })
 export class AuthenticationModule { }

@@ -21,6 +21,8 @@ import { MessagesModule } from 'primeng/messages';
 import {ToastModule} from 'primeng/toast';
 import { SharedPipesModule } from '../pipes/shared-pipes/shared-pipes.module';
 import { ExaminationPageComponent } from './examination-page/examination-page.component';
+import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
+import { HungarianPaginatorIntl } from '../utils/hungarianPaginatorIntl';
 
 
 @NgModule({
@@ -43,13 +45,17 @@ import { ExaminationPageComponent } from './examination-page/examination-page.co
     MatOptionModule,
     MatFormFieldModule,
     MatButtonModule,
-    MatDialogModule,
     MatInputModule,
+    MatDialogModule,
     MatDatepickerModule,
     MatNativeDateModule,
     MessagesModule,
     ToastModule,
-    SharedPipesModule
+    SharedPipesModule,
+    MatPaginatorModule
+    ],
+    providers: [
+      { provide: MatPaginatorIntl, useClass: HungarianPaginatorIntl }
     ]
 })
 export class ExaminationModule { }

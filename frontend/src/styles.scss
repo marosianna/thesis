@@ -2,19 +2,14 @@
 
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
+@import "primeng/resources/primeng.css";
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 
-.messages-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 600px;
-    margin: auto;
-    padding: 1em;
-    text-align: center;
-    justify-content: center;
-  }
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

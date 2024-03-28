@@ -1,6 +1,5 @@
 package com.thesis.controller;
 
-import com.thesis.entity.ResultEntity;
 import com.thesis.service.DocumentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -33,7 +31,7 @@ public class DocumentController {
     }
 
     @GetMapping(value = "/result/{id}")
-    public ResponseEntity<Optional<ResultEntity>> userHasResult(@PathVariable Long id) {
+    public ResponseEntity<Integer> userHasResult(@PathVariable Long id) {
         return ResponseEntity.ok(documentService.getResultByExamination(id));
     }
 

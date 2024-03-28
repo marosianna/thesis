@@ -30,6 +30,10 @@ export class AdminService extends BaseRequestService {
   getAllByFilter(val: any): Observable<Examination[]> {
     return this.sendPost(this.url + '/by-filter', val);
   }
+
+  isAdmin(): Observable<any>{
+    return this.sendGet(this.url + '/is-admin');
+  }
   /*
 
   getByFilter(examinationType: ExaminationType, examinationStatus: ExaminationStatus, fromDate: Date, toDate: Date) {

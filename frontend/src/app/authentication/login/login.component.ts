@@ -22,12 +22,12 @@ export class LoginComponent {
     //sessionStorage.clear();
   }
 
-  onSubmitUserLogin(): void {
+  async onSubmitUserLogin() {
     if(this.username === '' || this.password === ''){
       this.messages = [{ severity: 'error', summary: 'Fill in all the fields!'}];
       return;
     }
-    this.userService.login(this.username, this.password).subscribe(
+    await this.userService.login(this.username, this.password).subscribe(
       (response: any) => {
           this.tokenService.saveAccessToken(response.access_token);
           this.tokenService.saveRefreshToken(response.refresh_token);

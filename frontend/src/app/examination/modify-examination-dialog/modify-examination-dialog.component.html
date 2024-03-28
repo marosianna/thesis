@@ -1,26 +1,27 @@
 <mat-dialog-content>
-    <h2>Modify examination</h2>
+  <p-messages [(value)]="messages"></p-messages>
+    <h2>Vizsgálati időpont módosítása</h2>
     <form [formGroup]="newExaminationForm" id="new_examination_form">
       <mat-form-field>
-        <input matInput placeholder="Referral number" name="referralNumber" formControlName="referralNumber" required>
+        <input matInput placeholder="Beutaló száma" name="referralNumber" formControlName="referralNumber" required>
       </mat-form-field>
       <mat-form-field>
-      <mat-select placeholder="Type" name="type" formControlName="examinationType" required>
+      <mat-select placeholder="Vérvétel típusa" name="type" formControlName="examinationType" required>
         <mat-option *ngFor="let type of examinationTypes | keyvalue" [value]="type.key">{{ type.value }}</mat-option>
       </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <input matInput [matDatepicker]="picker" placeholder="Choose a date" formControlName="date" [min]="fromDate" required>
+        <input matInput [matDatepicker]="picker" placeholder="Dátum" formControlName="date" [min]="fromDate" required>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
       <mat-form-field>
-        <mat-select matInput formControlName="time" name="time" placeholder="Choose a time" required>
+        <mat-select matInput formControlName="time" name="time" placeholder="Időpont" required>
           <mat-option *ngFor="let time of timeSlots | keyvalue" [value]="time.key">{{ time.value }}</mat-option>
         </mat-select>
       </mat-form-field>
     <br>
-      <button mat-raised-button color="btn-outline-primary" (click)="saveExamination()">Save</button>
-      <button mat-raised-button color="btn-outline-danger" (click)="close()">Cancel</button>
+      <button class="btn btn-primary" style="float: left;" (click)="saveExamination()">Mentés</button>
+      <button class="btn btn-secondary" style="float: right;" (click)="close()">Mégsem</button>
     </form>
   </mat-dialog-content>

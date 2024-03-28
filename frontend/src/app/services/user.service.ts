@@ -60,7 +60,6 @@ export class UserService extends BaseRequestService {
   isUserLoggedIn() {
     return !!Object.keys(this.getUser()).length;
   }
-
 }
 
 

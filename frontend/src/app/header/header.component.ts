@@ -1,6 +1,8 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { TokenService } from '../services/token.service';
+import { NavigationEnd, Route, Router } from '@angular/router';
+import { AdminService } from '../services/admin.service';
 
 @Component({
   selector: 'app-header',
@@ -10,38 +12,38 @@ import { TokenService } from '../services/token.service';
 export class HeaderComponent implements OnChanges, OnInit{
 
   constructor(private userService: UserService,
-    private tokenService: TokenService) {}
+    private tokenService: TokenService,
+    private router: Router,
+    private adminService: AdminService) {}
 
   loggedInUser : boolean = this.userService.isUserLoggedIn();
 
-  loggedInUserIsAdmin: boolean = false;
+  loggedInUserIsAdmin: boolean = false; // Initialize with a default value
 
   ngOnInit(): void {
     this.updateLoggedInUserStatus();
-    this.loggedInUserIsAdmin = this.isAdmin();
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.adminService.isAdmin().subscribe(isAdmin => {
+          this.loggedInUserIsAdmin = isAdmin;
+        });
+      }
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    window.location.reload();
     this.updateLoggedInUserStatus();
   }
 
   updateLoggedInUserStatus(): void {
-    this.loggedInUser = this.userService.isUserLoggedIn();
+    setTimeout(() => {
+      this.loggedInUser = this.userService.isUserLoggedIn()
+      }, 1000);
   }
 
-  logout(): void {
-    this.userService.logout();
-    this.updateLoggedInUserStatus();
-    sessionStorage.removeItem('role');
-  }
-
-  isAdmin(): boolean{
-    if (this.tokenService.getrole() == 'ADMIN') {
-      return true;
-    } else {
-      return false;
-    } 
-}
-
+    logout(): void {
+      this.userService.logout();
+      this.updateLoggedInUserStatus();
+      sessionStorage.removeItem('role');
+    }
 }

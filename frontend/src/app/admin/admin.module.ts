@@ -19,6 +19,8 @@ import { AdminDeleteExaminationDialogComponent } from './admin-delete-examinatio
 import { AdminNewExaminationDialogComponent } from './admin-new-examination-dialog/admin-new-examination-dialog.component';
 import { AdminModifyExaminationDialogComponent } from './admin-modify-examination-dialog/admin-modify-examination-dialog.component';
 import { SharedPipesModule } from '../pipes/shared-pipes/shared-pipes.module';
+import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
+import { HungarianPaginatorIntl } from '../utils/hungarianPaginatorIntl';
 
 
 @NgModule({
@@ -45,7 +47,13 @@ import { SharedPipesModule } from '../pipes/shared-pipes/shared-pipes.module';
     MatNativeDateModule,
     MessagesModule,
     ToastModule,
-    SharedPipesModule
+    SharedPipesModule,
+    MatPaginatorModule,
+  
+  ],
+  providers: [
+    { provide: MatPaginatorIntl, useClass: HungarianPaginatorIntl }
   ]
+  ,
 })
 export class AdminModule { }

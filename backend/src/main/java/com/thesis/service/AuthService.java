@@ -26,6 +26,8 @@ public interface AuthService {
             Authentication authentication
     );
 
+
+
    /* void changePassword(
             ChangePasswordRequest request,
             Principal connectedUser

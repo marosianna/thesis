@@ -1,11 +1,11 @@
 export enum ExaminationType {
-    CLINICAL = "Clinical",
-    HEMATOLOGICAL = "Hematological",
-    BLOOD_COAGULATION = "Blood coagulation",
-    AUTOIMMUNE = "Autoimmune",
-    IMMUNOLOGICAL = "Immunological",
-    HORMONE = "Hormone",
-    INSULIN = "Insulin",
-    DRUG = "Drug",
-    FETAL = "Fetal"
+    CLINICAL = "Klinikai kémiai",
+    HEMATOLOGICAL = "Hematolgiai",
+    BLOOD_COAGULATION = "Véralvadás",
+    AUTOIMMUNE = "Autoimmun",
+    IMMUNOLOGICAL = "Immunológiai",
+    HORMONE = "Hormonvizsgálatok",
+    INSULIN = "Inzulinrezisztencia",
+    DRUG = "Gyógyszerszint",
+    FETAL = "Magzati kockázat",
 }

@@ -30,34 +30,37 @@ public class ExaminationServiceImpl implements ExaminationService{
 
     @Override
     public ExaminationResponse createExamination(CreateExaminationDto dto) {
-
+        ExaminationEntity examination = new ExaminationEntity();
         //validation for date: available or not
         if (timeValidation(dto.getDate(), dto.getTime())) {
             throw new AppException("This time is not available!");
-        }
-
-        //validation for type: cant be 2 same type for one user
-        if (typeValidation(getCurrentLoggedInUser(), dto.getExaminationType())) {
-           throw new AppException("Cannot have more than one examination of the same type.");
         }
 
         if (referralNumberValidation(dto.getReferralNumber())) {
             throw new AppException("Referral number must be unique!");
         }
 
-        ExaminationEntity examination = new ExaminationEntity();
-        examination.setExaminationType(dto.getExaminationType());
-        examination.setExaminationStatus(ExaminationStatus.IN_PROGRESS);
         if (dto.getMedId() == null) {
+            //validation for type: cant be 2 same type for one user
+            if (typeValidation(getCurrentLoggedInUser(), dto.getExaminationType())) {
+                throw new AppException("Cannot have more than one examination of the same type.");
+            }
             examination.setUser(getCurrentLoggedInUser());
         } else {
             Optional<UserEntity> user = userRepository.findByMedId(dto.getMedId());
             if (user.isPresent()) {
+                if (typeValidation(user.get(), dto.getExaminationType())) {
+                    throw new AppException("Cannot have more than one examination of the same type.");
+                }
                 examination.setUser(user.get());
             } else {
                 throw new AppException("Taj number doesn't exist");
             }
         }
+
+
+        examination.setExaminationType(dto.getExaminationType());
+        examination.setExaminationStatus(ExaminationStatus.IN_PROGRESS);
 
         examination.setDate(dto.getDate().plusDays(1));
         examination.setTime(dto.getTime());
@@ -98,6 +101,9 @@ public class ExaminationServiceImpl implements ExaminationService{
         if (!byId.isPresent()) {
             return null;
         }
+        if (dateValidation(byId.get())){
+            throw new AppException("Examination cannot be deleted!");
+        }
         ExaminationEntity examination = byId.get();
         examinationRepository.deleteById(examination.getId());
 
@@ -118,7 +124,7 @@ public class ExaminationServiceImpl implements ExaminationService{
             return null;
         }
         //validation for date: available or not
-        if (!dto.getDate().isEqual(byId.get().getDate()) && timeValidation(dto.getDate(), dto.getTime())) {
+        if (!dto.getDate().isEqual(byId.get().getDate()) && !dto.getTime().equals(byId.get().getTime()) && timeValidation(dto.getDate(), dto.getTime())) {
             throw new AppException("This time is not available!");
         }
 
@@ -129,6 +135,10 @@ public class ExaminationServiceImpl implements ExaminationService{
 
         if (!dto.getReferralNumber().equals(byId.get().getReferralNumber()) && referralNumberValidation(dto.getReferralNumber())) {
             throw new AppException("Referral number must be unique!");
+        }
+
+        if (dateValidation(byId.get())){
+            throw new AppException("Examination cannot be modified!");
         }
 
         ExaminationEntity examination = byId.get();
@@ -144,11 +154,20 @@ public class ExaminationServiceImpl implements ExaminationService{
                 throw new AppException("Taj number doesn't exist");
             }
         }
-        examination.setDate(dto.getDate().plusDays(1));
+        if (dto.getDate().equals(examination.getDate())) {
+            examination.setDate(dto.getDate());
+        } else {
+            examination.setDate(dto.getDate().plusDays(1));
+        }
         examination.setReferralNumber(dto.getReferralNumber());
         examination.setTime(dto.getTime());
         ExaminationEntity savedExamination = examinationRepository.save(examination);
         return examinationMapper.mapToExaminationResponse(savedExamination);
+    }
+
+    private boolean dateValidation(ExaminationEntity examination){
+        return ExaminationStatus.WAITING_FOR_RESULT.equals(examination.getExaminationStatus()) ||
+                ExaminationStatus.CLOSED.equals(examination.getExaminationStatus());
     }
 
     @Override

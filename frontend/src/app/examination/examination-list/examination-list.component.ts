@@ -9,6 +9,8 @@ import { DeleteExaminationDialogComponent } from '../delete-examination-dialog/d
 import { ModifyExaminationDialogComponent } from '../modify-examination-dialog/modify-examination-dialog.component';
 import { Message } from 'primeng/api';
 import { ExaminationPageComponent } from '../examination-page/examination-page.component';
+import { ExaminationStatus } from 'src/app/models/ExaminationStatus';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-examination-list',
@@ -19,6 +21,9 @@ export class ExaminationListComponent implements OnInit, OnChanges{
 
   examinations: Examination [] = [];
   public messages: Message[] = [];
+
+  selectedExamination: Examination | undefined;
+  public pageSlice = this.examinations.slice(0, 5);
 
   constructor(private examinationService: ExaminationService,
               private userService: UserService,
@@ -35,12 +40,30 @@ export class ExaminationListComponent implements OnInit, OnChanges{
     this.loadExaminations();
   }
 
+  onPageChange(event: PageEvent) {
+    console.log(event);
+    const startIndex = event.pageIndex * event.pageSize;
+    let endIndex = startIndex + event.pageSize;
+    if (endIndex > this.examinations.length) {
+      endIndex = this.examinations.length;
+    }
+    this.pageSlice = this.examinations.slice(startIndex, endIndex);
+  }
+
+  isModifiable(examination: Examination): boolean {
+    return examination.status !== this.getKeyByValue(ExaminationStatus, ExaminationStatus.CLOSED) && examination.status !== this.getKeyByValue(ExaminationStatus, ExaminationStatus.WAITING_FOR_RESULT);
+  }
+
+  getKeyByValue(object: any, value: any) {
+    return Object.keys(object).find(key => object[key] === value);
+  }
+
   loadExaminations(): void {
     this.examinationService.getAllByUser().subscribe(
       (res: any) => 
     {
       this.examinations = res
-      
+      this.pageSlice = this.examinations.slice(0, 5);
     },
     (error: any) => {
       this.messages = [{ severity: 'error', summary: 'Something went wrong.'}];

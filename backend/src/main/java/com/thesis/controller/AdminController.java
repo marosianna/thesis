@@ -41,4 +41,10 @@ public class AdminController {
     public ResponseEntity<Boolean> isAdmin(){
         return ResponseEntity.ok(adminService.isAdmin());
     }
+
+    @PostMapping("/is-logged-in")
+    public boolean isLoggedIn() {
+        return adminService.isLoggedIn();
+    }
+
 }

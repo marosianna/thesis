@@ -24,6 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -41,11 +42,11 @@ public class AuthServiceImpl implements LogoutHandler, AuthService {
     public AuthenticationResponse register(RegisterRequest request) {
 
         if (usernameValidation(request.getUsername())) {
-            throw new AppException("The username is already taken.");
+            throw new AppException("A felhasználónév már foglalt!");
         }
 
         if (medIdValidation(request.getMedId())){
-            throw new AppException("Med id must be unique");
+            throw new AppException("A taj számnak egyedinek kell lennie!");
         }
 
         UserEntity user = new UserEntity();
@@ -79,12 +80,12 @@ public class AuthServiceImpl implements LogoutHandler, AuthService {
                     )
             );
         } catch (Exception e) {
-            throw new AppException("Bad credentials!");
+            throw new AppException("Hibás felhasználónév vagy jelszó!");
         }
 
-        var user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new AppException("User not found"));
+        var user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new AppException("A felhasználó nem található!"));
         if (!Role.USER.equals(user.getRole())) {
-            throw new AppException("You don't have user permission!");
+            throw new AppException("Nem rendelkezik felhasználói jogosultsággal!");
         }
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
@@ -101,11 +102,11 @@ public class AuthServiceImpl implements LogoutHandler, AuthService {
     public AuthenticationResponse registerAdmin(RegisterRequest request) {
 
         if (usernameValidation(request.getUsername())) {
-            throw new AppException("The username is already taken.");
+            throw new AppException("A felhasználónév már foglalt!");
         }
 
         if (medIdValidation(request.getMedId())){
-            throw new AppException("Med id must be unique");
+            throw new AppException("Az azonosítónak egyedinek kell lennie!");
         }
 
         UserEntity user = new UserEntity();
@@ -139,11 +140,11 @@ public class AuthServiceImpl implements LogoutHandler, AuthService {
                     )
             );
         } catch (Exception e) {
-            throw new AppException("Bad credentials!");
+            throw new AppException("Hibás felhasználónév vagy jelszó!");
         }
         var user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new AppException("User not found"));
         if (!Role.ADMIN.equals(user.getRole())) {
-           throw new AppException("You don't have admin permission!");
+            throw new AppException("Nem rendelkezik adminisztrátor jogosultsággal!");
         }
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
@@ -176,8 +177,8 @@ public class AuthServiceImpl implements LogoutHandler, AuthService {
             tokenRepository.save(storedToken);
             SecurityContextHolder.clearContext();
         }
-    }
 
+}
 
 
 

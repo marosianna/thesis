@@ -17,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -48,6 +49,16 @@ public class AdminServiceImpl implements AdminService {
             if (Role.ADMIN.equals(user.get().getRole())) {
                 return true;
             }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isLoggedIn() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!Objects.isNull(authentication)){
+            Optional<UserEntity> user = userRepository.findByUsername(authentication.getName());
+            return user.isPresent();
         }
         return false;
     }

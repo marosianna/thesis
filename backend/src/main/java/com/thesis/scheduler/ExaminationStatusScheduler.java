@@ -36,6 +36,7 @@ public class ExaminationStatusScheduler {
     }
 
     private void setStatusWaitingForResult(ExaminationEntity examination) {
+        log.info("The examination's (with id: " + examination.getId() + ") " + "status changed from " + examination.getExaminationStatus() + " to Waiting for result.");
         examination.setExaminationStatus(ExaminationStatus.WAITING_FOR_RESULT);
         examinationRepository.save(examination);
     }

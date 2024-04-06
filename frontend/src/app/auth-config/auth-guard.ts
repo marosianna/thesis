@@ -3,6 +3,7 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTr
 import { UserService } from "../services/user.service";
 import { TokenService } from "../services/token.service";
 import { Observable, map } from "rxjs";
+import { AdminService } from "../services/admin.service";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -20,7 +21,10 @@ export class AuthGuard implements CanActivate {
   }
   */
 
-  constructor(private tokenService: TokenService, private router: Router, private userService: UserService) { }
+  constructor(private tokenService: TokenService,
+     private router: Router,
+      private userService: UserService,
+      private adminService: AdminService) { }
 
   
 
@@ -29,7 +33,7 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree{
       
   
-    if (this.userService.isUserLoggedIn()) {
+    /*if (this.userService.isUserLoggedIn()) {
       if (route.url.length > 0) {
         let menu = route.url[0].path;
         if (menu == 'admin') {
@@ -63,10 +67,47 @@ export class AuthGuard implements CanActivate {
       this.userService.logout();
       this.router.navigate(['login']);
       return false; 
-    }
-    
+    }*/
+
+    return new Promise<boolean>((resolve, reject) => {
+      this.adminService.isLoggedIn().subscribe(isLoggedIn => {
+        if (isLoggedIn) {
+          if (route.url.length > 0) {
+            let menu = route.url[0].path;
+            this.adminService.isAdmin().subscribe(isAdmin => {
+              if (menu == 'admin') {
+                if (isAdmin) {
+                  resolve(true);
+                } else {
+                  this.router.navigate(['/user/examination']); 
+                  resolve(false); 
+                }
+              }
+              else if (menu == 'user') {
+                if (!isAdmin) {
+                  resolve(true);
+                } else {
+                  this.router.navigate(['/admin/examination']); 
+                  resolve(false); 
+                }
+              } else {
+                if (!isAdmin) {
+                  this.router.navigate(['/user/examination']);
+                  resolve(true);
+                } else if(isAdmin){
+                  this.router.navigate(['/admin/examination']);
+                  resolve(true);
+                }
+              }
+            });
+          }
+          resolve(true);
+        } else {
+          this.userService.logout();
+          this.router.navigate(['login']);
+          resolve(false);
+        }
+      });
+    });
   }
-
-  
-
 }

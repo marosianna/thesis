@@ -33,28 +33,28 @@ public class ExaminationServiceImpl implements ExaminationService{
         ExaminationEntity examination = new ExaminationEntity();
         //validation for date: available or not
         if (timeValidation(dto.getDate(), dto.getTime())) {
-            throw new AppException("This time is not available!");
+            throw new AppException("A kiválasztott időpont nem elérhető!");
         }
 
         if (referralNumberValidation(dto.getReferralNumber())) {
-            throw new AppException("Referral number must be unique!");
+            throw new AppException("A beutaló számnak egyedinek kell lennie!");
         }
 
         if (dto.getMedId() == null) {
             //validation for type: cant be 2 same type for one user
             if (typeValidation(getCurrentLoggedInUser(), dto.getExaminationType())) {
-                throw new AppException("Cannot have more than one examination of the same type.");
+                throw new AppException("Egynél több nem lezárt státuszú, azonos típusú vizsgálatot nem lehet felvenni!");
             }
             examination.setUser(getCurrentLoggedInUser());
         } else {
             Optional<UserEntity> user = userRepository.findByMedId(dto.getMedId());
             if (user.isPresent()) {
                 if (typeValidation(user.get(), dto.getExaminationType())) {
-                    throw new AppException("Cannot have more than one examination of the same type.");
+                    throw new AppException("Egynél több nem lezárt státuszú, azonos típusú vizsgálatot nem lehet felvenni!");
                 }
                 examination.setUser(user.get());
             } else {
-                throw new AppException("Taj number doesn't exist");
+                throw new AppException("A megadott taj számmal felhasználó nem található!");
             }
         }
 
@@ -102,7 +102,7 @@ public class ExaminationServiceImpl implements ExaminationService{
             return null;
         }
         if (dateValidation(byId.get())){
-            throw new AppException("Examination cannot be deleted!");
+            throw new AppException("A vizsgálat nem törölhető!");
         }
         ExaminationEntity examination = byId.get();
         examinationRepository.deleteById(examination.getId());
@@ -125,20 +125,20 @@ public class ExaminationServiceImpl implements ExaminationService{
         }
         //validation for date: available or not
         if (!dto.getDate().isEqual(byId.get().getDate()) && !dto.getTime().equals(byId.get().getTime()) && timeValidation(dto.getDate(), dto.getTime())) {
-            throw new AppException("This time is not available!");
+            throw new AppException("A kiválasztott időpont nem elérhető!");
         }
 
         //validation for type: cant be 2 same type for one user
         if (!dto.getExaminationType().equals(byId.get().getExaminationType()) && typeValidation(getCurrentLoggedInUser(), dto.getExaminationType())) {
-            throw new AppException("Cannot have more than one examination of the same type.");
+            throw new AppException("Egynél több nem lezárt státuszú, azonos típusú vizsgálatot nem lehet felvenni!");
         }
 
         if (!dto.getReferralNumber().equals(byId.get().getReferralNumber()) && referralNumberValidation(dto.getReferralNumber())) {
-            throw new AppException("Referral number must be unique!");
+            throw new AppException("A beutaló számnak egyedinek kell lennie!");
         }
 
         if (dateValidation(byId.get())){
-            throw new AppException("Examination cannot be modified!");
+            throw new AppException("A vizsgálat nem módosítható!");
         }
 
         ExaminationEntity examination = byId.get();
@@ -151,7 +151,7 @@ public class ExaminationServiceImpl implements ExaminationService{
             if (user.isPresent()) {
                 examination.setUser(user.get());
             } else {
-                throw new AppException("Taj number doesn't exist");
+                throw new AppException("A megadott taj számmal felhasználó nem található!");
             }
         }
         if (dto.getDate().equals(examination.getDate())) {

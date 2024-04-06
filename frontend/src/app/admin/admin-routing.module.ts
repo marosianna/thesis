@@ -4,9 +4,9 @@ import { AdminExaminationListComponent } from './admin-examination-list/admin-ex
 import { AuthGuard } from '../auth-config/auth-guard';
 
 const routes: Routes = [
-  { path: 'admin-examination-list', component: AdminExaminationListComponent, canActivate: [AuthGuard] },
-  { path: '', component: AdminExaminationListComponent, canActivate: [AuthGuard]},
-  { path: '**', component: AdminExaminationListComponent, canActivate: [AuthGuard]},
+  { path: 'admin-examination-list', component: AdminExaminationListComponent },
+  { path: '', component: AdminExaminationListComponent},
+  { path: '**', component: AdminExaminationListComponent},
 ];
 
 @NgModule({

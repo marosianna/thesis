@@ -5,9 +5,9 @@ import { AuthGuard } from '../auth-config/auth-guard';
 import { NewExaminationDialogComponent } from './new-examination-dialog/new-examination-dialog.component';
 
 const routes: Routes = [
-  { path: 'examination-list', component: ExaminationListComponent, canActivate: [AuthGuard] },
-  { path: '', component: ExaminationListComponent, canActivate: [AuthGuard]},
-  { path: '**', component: ExaminationListComponent, canActivate: [AuthGuard]},
+  { path: 'examination-list', component: ExaminationListComponent },
+  { path: '', component: ExaminationListComponent},
+  { path: '**', component: ExaminationListComponent},
 ];
 
 @NgModule({

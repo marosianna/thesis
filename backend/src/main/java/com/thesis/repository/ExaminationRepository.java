@@ -37,6 +37,10 @@ public interface ExaminationRepository extends JpaRepository<ExaminationEntity, 
             + "e.date <= :now and e.examinationStatus = 'IN_PROGRESS'")
     List<ExaminationEntity> findAllByDatesBefore(LocalDate now);
 
+    @Query("select e from ExaminationEntity e where "
+            + "e.user.id =:userId "
+            + "order by e.date desc"
+    )
     List<ExaminationEntity> findAllByUserId(Long userId);
 
     @Query("select e from ExaminationEntity e where "
@@ -63,6 +67,7 @@ public interface ExaminationRepository extends JpaRepository<ExaminationEntity, 
            + " and (:status is null or e.examinationStatus = :status)"
            + " and (:time is null or e.time = :time)"
            + " and (cast(:date as date) is null or e.date = :date)"
+           + " order by e.date desc"
     )
     List<ExaminationResponseByFilter> findAllByFilter(Long medId,
                                                       String referralNumber,

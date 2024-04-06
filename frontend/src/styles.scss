@@ -5,7 +5,7 @@
 @import "primeng/resources/primeng.css";
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;  overflow-x:hidden; }
 
 
 input[type="number"]::-webkit-outer-spin-button,

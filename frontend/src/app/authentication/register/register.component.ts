@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { Message } from 'primeng/api';
 import { Router } from '@angular/router';
@@ -14,13 +14,13 @@ import { TokenService } from 'src/app/services/token.service';
 export class RegisterComponent {
 
   signUpForm = new FormGroup({
-    medId: new FormControl(""),
-    firstName: new FormControl(""),
-    lastName: new FormControl(""),
-    email: new FormControl(""),
-    username: new FormControl(""),
-    password: new FormControl(""),
-    rePassword: new FormControl("")
+    medId: new FormControl("", Validators.required),
+    firstName: new FormControl("", Validators.required),
+    lastName: new FormControl("", Validators.required),
+    email: new FormControl("", [Validators.required, Validators.email]),
+    username: new FormControl("", Validators.required),
+    password: new FormControl("", [Validators.required, Validators.minLength(8)]),
+    rePassword: new FormControl("", [Validators.required, Validators.minLength(8)])
   },  { validators: passwordMatchValidator })
 
   public messages: Message[] = [];
@@ -33,7 +33,7 @@ export class RegisterComponent {
 
     this.signUpForm.updateValueAndValidity(); 
     if (this.signUpForm.invalid) {
-      this.messages = [{ severity: 'error', summary: 'The form is invalid!'}];
+      this.messages = [{ severity: 'error', summary: 'Hiba az adatok megadásával!'}];
       return;
     }
 
@@ -48,7 +48,7 @@ export class RegisterComponent {
     };
 
     this.userService.createUser(val).subscribe(response => {
-      this.messages = [{ severity: 'success', summary: "Registration is successful!"}];
+      this.messages = [{ severity: 'success', summary: "Sikeres regisztráció!"}];
       sessionStorage.setItem('role', response.role)
       this.tokenService.saveAccessToken(response.access_token);
       this.tokenService.saveRefreshToken(response.refresh_token);

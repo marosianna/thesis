@@ -1,6 +1,6 @@
-<button class="btn btn-primary btn-block mb-4" [routerLink]="'/admin'">Adminisztrátor vagyok</button>
+<button mat-raised-button color="primary"  class="btn btn-block mb-4" [routerLink]="'/admin'">Adminisztrátor vagyok</button>
 <p-messages [(value)]="messages"></p-messages>
-<div class="row justify-content-center">
+<!--<div class="row justify-content-center">
 	<div class="col-4">
 	<div class="tab-content">
 	  <div>
@@ -19,4 +19,29 @@
 	    </form>
 	  </div>
 	</div>
+</div>-->
+
+<div class="row justify-content-center">
+	<div class="col-4">
+	<div class="tab-content">
+    <form (ngSubmit)="onSubmitUserLogin()"  id="login_form" name="wf-form-Login" data-name="Login">
+    <mat-form-field>
+        <mat-label for="email">Felhasználónév: </mat-label>
+        <input matInput type="login" id="username" name= "username"  data-name="Username" [(ngModel)]="username"  required/>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label for="password">Jelszó: </mat-label>
+        <input matInput type="password" id="loginPassword" name="password" data-name="Password" [(ngModel)]="password"  required/>
+    </mat-form-field>
+    <div>
+        <span>
+            <button mat-raised-button color="primary" type="submit" class="btn btn-block mb-4" value="Login">Bejelentkezés felhasználóként</button>
+        </span>
+        <span>
+            <button mat-raised-button color="secondary" class="btn btn-block mb-4" [routerLink]="'/register'">Regisztráció</button>
+        </span>
+    </div>
+</form>
+</div>
+</div>
 </div>

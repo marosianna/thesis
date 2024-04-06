@@ -33,7 +33,7 @@ export class AdminRegisterComponent {
     this.signUpForm.updateValueAndValidity(); 
     if (this.signUpForm.invalid) {
       console.log(this.signUpForm.errors);
-      this.messages = [{ severity: 'error', summary: 'The form is invalid!'}];
+      this.messages = [{ severity: 'error', summary: 'Hiba az adatok megadásával!'}];
       return;
     }
 
@@ -48,7 +48,7 @@ export class AdminRegisterComponent {
     };
 
     this.userService.createAdmin(val).subscribe(response => {
-      this.messages = [{ severity: 'success', summary: "Registration is successful!"}];
+      this.messages = [{ severity: 'success', summary: "Sikeres regisztráció!"}];
       this.tokenService.saveAccessToken(response.access_token);
       this.tokenService.saveRefreshToken(response.refresh_token);
       this.tokenService.saveUser(response);

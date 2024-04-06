@@ -1,4 +1,4 @@
-<div class="main_component div-flex">
+<div class="main_component">
     <mat-card>
       <div class="search-bar">
         <form [formGroup]="searchExaminationForm" id="new_examination_form">
@@ -33,11 +33,16 @@
             <button mat-raised-button color="btn-outline-primary" (click)="deleteFilters()">Szűrők törlése</button>
           </form>
       </div>
+      <br>
+      </mat-card>
+      <br>
+      <mat-card>
         <mat-card-header>
             <mat-card-title>
                 Vizsgálati időpontok
             </mat-card-title>
         </mat-card-header>
+        <br>
         <div><button class="btn btn-outline-primary" (click)="openPopup()">Új vizsgálati időpont felvétele</button></div>
         <div class="div-flex" *ngIf="examinationResponseByFilter.length">
             <table class="table mat-table">

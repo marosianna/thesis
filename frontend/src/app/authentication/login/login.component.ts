@@ -24,7 +24,7 @@ export class LoginComponent {
 
   async onSubmitUserLogin() {
     if(this.username === '' || this.password === ''){
-      this.messages = [{ severity: 'error', summary: 'Fill in all the fields!'}];
+      this.messages = [{ severity: 'error', summary: 'Az összes mező kitöltése kötelező!'}];
       return;
     }
     await this.userService.login(this.username, this.password).subscribe(
@@ -38,6 +38,7 @@ export class LoginComponent {
       (error: any) => {
         console.log(error.error.message);
         this.messages = [{ severity: 'error', summary: error.error.message}];
+        //alert(error.error.message);
       }
       );
   }

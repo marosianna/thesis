@@ -34,6 +34,11 @@ export class AdminService extends BaseRequestService {
   isAdmin(): Observable<any>{
     return this.sendGet(this.url + '/is-admin');
   }
+
+  isLoggedIn(): Observable<any>{
+    return this.sendPost(this.url + '/is-logged-in');
+  }
+
   /*
 
   getByFilter(examinationType: ExaminationType, examinationStatus: ExaminationStatus, fromDate: Date, toDate: Date) {

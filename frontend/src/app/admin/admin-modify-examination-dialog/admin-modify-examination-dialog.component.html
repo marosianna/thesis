@@ -14,13 +14,13 @@
       </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <input matInput [matDatepicker]="picker" placeholder="Dátum" formControlName="date" [min]="fromDate" required>
+        <input matInput [matDatepicker]="picker" placeholder="Dátum" formControlName="date" (dateChange)="onDateSelected($event)" [min]="fromDate" required>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
       <mat-form-field>
         <mat-select matInput formControlName="time" name="time" placeholder="Időpont" required>
-          <mat-option *ngFor="let time of timeSlots | keyvalue" [value]="time.key">{{ time.value }}</mat-option>
+          <mat-option *ngFor="let time of timeSlots | keyvalue" [value]="time.key" [disabled]="!isAvailable(time.key)">{{ time.value }}</mat-option>
         </mat-select>
       </mat-form-field>
     <br>

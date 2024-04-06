@@ -70,24 +70,7 @@ export class AdminExaminationListComponent implements OnInit, OnChanges {
     this.pageSlice = this.examinationResponseByFilter.slice(startIndex, endIndex);
     //this.loadExaminations();
   }
-/*
-  goToPreviousPage() {
-    if (this.currentPage > 0) {
-      this.currentPage--;
-      this.loadExaminations();
-    }
-  }
 
-  goToNextPage() {
-    if (this.currentPage < this.totalPages - 1) {
-      this.currentPage++;
-      this.loadExaminations();
-    }
-  }
-
-  gettotalPages(): number {
-    return Math.ceil(this.totalItems / this.pageSize);
-  }*/
 
   ngOnChanges(changes: SimpleChanges): void {
     this.loadExaminations(); 
@@ -160,9 +143,6 @@ export class AdminExaminationListComponent implements OnInit, OnChanges {
           this.examinationResponseByFilter = res;
           this.pageSlice = this.examinationResponseByFilter.slice(0, 5);
           this.examinations = res.map((response: any) => this.transformResponseToExamination(response));
-        },
-        (error: any) => {
-          this.messages = [{ severity: 'error', summary: 'Something went wrong.' }];
         }
       );
     }, 500);

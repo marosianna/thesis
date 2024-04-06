@@ -64,9 +64,6 @@ export class ExaminationListComponent implements OnInit, OnChanges{
     {
       this.examinations = res
       this.pageSlice = this.examinations.slice(0, 5);
-    },
-    (error: any) => {
-      this.messages = [{ severity: 'error', summary: 'Something went wrong.'}];
     }
     );
   }
@@ -117,7 +114,7 @@ export class ExaminationListComponent implements OnInit, OnChanges{
       }
     });
     dialogRef.afterClosed().subscribe(res => {
-      this.loadExaminations();
+      setTimeout(() => {this.loadExaminations()},500);
     });
   }
 }

@@ -18,32 +18,47 @@ export class HeaderComponent implements OnChanges, OnInit{
 
   loggedInUser : boolean = this.userService.isUserLoggedIn();
 
-  loggedInUserIsAdmin: boolean = false; // Initialize with a default value
+  loggedInUserIsAdmin: boolean = false;
 
   ngOnInit(): void {
-    this.updateLoggedInUserStatus();
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
+        if(this.userService.isUserLoggedIn()){
         this.adminService.isAdmin().subscribe(isAdmin => {
-          this.loggedInUserIsAdmin = isAdmin;
+          this.loggedInUserIsAdmin = isAdmin; 
         });
+        this.updateLoggedInUserStatus();
       }
+    }
     });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.updateLoggedInUserStatus();
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        if(this.userService.isUserLoggedIn()){
+        this.updateLoggedInUserStatus();
+      }
+    }
+    });
   }
 
   updateLoggedInUserStatus(): void {
     setTimeout(() => {
-      this.loggedInUser = this.userService.isUserLoggedIn()
-      }, 1000);
+      this.adminService.isLoggedIn().subscribe(isLoggedIn => {
+        this.loggedInUser = isLoggedIn;
+      });
+      }, 500);
+      if (this.loggedInUser) {
+        this.adminService.isAdmin().subscribe(isAdmin => {
+          this.loggedInUserIsAdmin = isAdmin;
+        });
+      }
   }
 
     logout(): void {
+      this.loggedInUser = false;
       this.userService.logout();
-      this.updateLoggedInUserStatus();
       sessionStorage.removeItem('role');
     }
 }

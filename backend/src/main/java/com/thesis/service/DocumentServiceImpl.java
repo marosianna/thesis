@@ -59,7 +59,7 @@ public class DocumentServiceImpl implements DocumentService{
             }
             return StringUtils.cleanPath(Objects.requireNonNull(fileName));
         } catch (IOException e) {
-            throw new AppException("File upload failed!");
+            throw new AppException("A fájl feltöltése nem sikerült!");
         }
     }
 

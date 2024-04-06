@@ -24,7 +24,7 @@ export class AdminLoginComponent {
 
   onSubmitAdminLogin(): void {
     if(this.username === '' || this.password === ''){
-      this.messages = [{ severity: 'error', summary: 'Fill in all the fields!'}];
+      this.messages = [{ severity: 'error', summary: 'Az összes mező kitöltése kötelező!'}];
       return;
     }
     this.userService.loginAdmin(this.username, this.password).subscribe(

@@ -81,7 +81,7 @@ export class ExaminationPageComponent implements OnInit{
 
     const formData:any = new FormData();
     if (!this.file) {
-      this.messages = [{ severity: 'error', summary: 'Please select a file.'}];
+      this.messages = [{ severity: 'error', summary: 'Kérem, válasszon ki egy feltölteni kívánt fájlt!'}];
       return;
     }
     formData.append('file', this.file, this.file?.name);
@@ -120,9 +120,6 @@ onDownload() {
   getAdmin(): any {
     this.examinationService.getAdmin().subscribe((res) => {
       this.adminId = res;
-    },
-    (error: any) => {
-      this.messages = [{ severity: 'error', summary: 'Something went wrong.'}];
     }
     );
   }
@@ -131,9 +128,6 @@ onDownload() {
     this.documentService.getResultByExaminationId(this.examination?.id).subscribe(
       (res: any) => {
         this.resultByExamination = res;
-      },
-      (error: any) => {
-        this.messages = [{ severity: 'error', summary: 'Something went wrong.'}];
       }
     );
   }

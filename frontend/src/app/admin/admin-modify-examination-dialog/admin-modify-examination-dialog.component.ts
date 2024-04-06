@@ -17,6 +17,7 @@ export class AdminModifyExaminationDialogComponent implements OnInit {
   examinationTypes = ExaminationType;
   timeSlots = TimeSlot;
   examinations : Examination [] = [];
+  removeTimes: any;
 
   public messages: Message[] = [];
 
@@ -79,6 +80,17 @@ export class AdminModifyExaminationDialogComponent implements OnInit {
 
   onNoClick(): void {
     this.dialogRef.close(); 
+  }
+
+  onDateSelected(event: any) {
+    const selectedDate: Date = event.value;
+    this.examinationService.getAvailableTimes(selectedDate).subscribe((res: any) => {
+      this.removeTimes = res;
+    })
+  }
+
+  isAvailable(value: any): boolean {
+    return this.removeTimes && !this.removeTimes.includes(value);
   }
 
 

@@ -23,7 +23,7 @@ public class DocumentEntity implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "file", columnDefinition = "BLOB")
+    @Column(name = "file")
     private byte[] file;
 
     @OneToOne(fetch = FetchType.LAZY)

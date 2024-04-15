@@ -127,11 +127,20 @@ public class ExaminationServiceImpl implements ExaminationService{
         if (!dto.getDate().isEqual(byId.get().getDate()) && !dto.getTime().equals(byId.get().getTime()) && timeValidation(dto.getDate(), dto.getTime())) {
             throw new AppException("A kiválasztott időpont nem elérhető!");
         }
-
         //validation for type: cant be 2 same type for one user
-        if (!dto.getExaminationType().equals(byId.get().getExaminationType()) && typeValidation(getCurrentLoggedInUser(), dto.getExaminationType())) {
-            throw new AppException("Egynél több nem lezárt státuszú, azonos típusú vizsgálatot nem lehet felvenni!");
+        if (dto.getMedId() == null) {
+            if (!dto.getExaminationType().equals(byId.get().getExaminationType()) && typeValidation(getCurrentLoggedInUser(), dto.getExaminationType())) {
+                throw new AppException("Egynél több nem lezárt státuszú, azonos típusú vizsgálatot nem lehet felvenni!");
+            }
+        } else {
+            Optional<UserEntity> user = userRepository.findByMedId(dto.getMedId());
+            if (user.isPresent()) {
+                if (!dto.getExaminationType().equals(byId.get().getExaminationType()) && typeValidation(user.get(), dto.getExaminationType())) {
+                    throw new AppException("Egynél több nem lezárt státuszú, azonos típusú vizsgálatot nem lehet felvenni!");
+                }
+            }
         }
+
 
         if (!dto.getReferralNumber().equals(byId.get().getReferralNumber()) && referralNumberValidation(dto.getReferralNumber())) {
             throw new AppException("A beutaló számnak egyedinek kell lennie!");

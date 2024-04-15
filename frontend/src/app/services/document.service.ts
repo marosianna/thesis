@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BaseRequestService } from './base-request.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { UserService } from './user.service';
 import { TokenService } from './token.service';
 import { Router } from '@angular/router';

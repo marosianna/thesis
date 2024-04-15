@@ -19,7 +19,6 @@ export class LoginComponent {
   public messages: Message[] = [];
 
   constructor(private userService: UserService, private tokenService: TokenService, private router: Router) {
-    //sessionStorage.clear();
   }
 
   async onSubmitUserLogin() {
@@ -38,7 +37,6 @@ export class LoginComponent {
       (error: any) => {
         console.log(error.error.message);
         this.messages = [{ severity: 'error', summary: error.error.message}];
-        //alert(error.error.message);
       }
       );
   }

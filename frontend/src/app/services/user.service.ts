@@ -17,8 +17,6 @@ export class UserService extends BaseRequestService {
     super(http);
   }
 
-  //TODO : erre írni backend apit
-
   refreshToken(token: any) {
     return this.sendPost('api/refresh/', {refresh_token: token});
   }

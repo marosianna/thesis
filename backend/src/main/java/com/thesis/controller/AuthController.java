@@ -2,7 +2,6 @@ package com.thesis.controller;
 
 import com.thesis.auth.AuthenticationRequest;
 import com.thesis.auth.AuthenticationResponse;
-import com.thesis.auth.ChangePasswordRequest;
 import com.thesis.auth.RegisterRequest;
 import com.thesis.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,7 +25,6 @@ public class AuthController {
             @RequestBody RegisterRequest request
     ) {
         return ResponseEntity.ok(authService.register(request));
-
     }
 
     @PostMapping("/login")

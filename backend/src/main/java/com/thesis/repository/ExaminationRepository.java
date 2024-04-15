@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -27,34 +28,35 @@ public interface ExaminationRepository extends JpaRepository<ExaminationEntity, 
             + "and (:fromDate is null or :fromDate <= e.date) "
             + "and (:toDate is null or :toDate >= e.date)")
     List<ExaminationEntity> findByFilter(
-            ExaminationStatus status,
-            ExaminationType type,
-            LocalDate fromDate,
-            LocalDate toDate
+            @Param("status") ExaminationStatus status,
+            @Param("type") ExaminationType type,
+            @Param("fromDate") LocalDate fromDate,
+            @Param("toDate") LocalDate toDate
     );
 
     @Query("select e from ExaminationEntity e where "
             + "e.date <= :now and e.examinationStatus = 'IN_PROGRESS'")
-    List<ExaminationEntity> findAllByDatesBefore(LocalDate now);
+    List<ExaminationEntity> findAllByDatesBefore(@Param("now") LocalDate now);
 
     @Query("select e from ExaminationEntity e where "
             + "e.user.id =:userId "
             + "order by e.date desc"
     )
-    List<ExaminationEntity> findAllByUserId(Long userId);
+    List<ExaminationEntity> findAllByUserId(@Param("userId") Long userId);
 
     @Query("select e from ExaminationEntity e where "
             + "e.referralNumber = :referralNumber")
-    Optional<ExaminationEntity> findByReferralNumber(String referralNumber);
+    Optional<ExaminationEntity> findByReferralNumber(@Param("referralNumber") String referralNumber);
 
     @Query("select e from ExaminationEntity e where "
     + "e.date = :date")
-    List<ExaminationEntity> findAllByDate(LocalDate date);
+    List<ExaminationEntity> findAllByDate(@Param("date") LocalDate date);
 
     @Query("select e from ExaminationEntity e where "
     + "e.user.id = :id and e.examinationType = :type "
     + "and e.examinationStatus != 'CLOSED'")
-    Optional<ExaminationEntity> findByUserIdAndTypeAndExaminationIsNotClosed(Long id, ExaminationType type);
+    Optional<ExaminationEntity> findByUserIdAndTypeAndExaminationIsNotClosed(@Param("id") Long id,
+                                                                             @Param("type") ExaminationType type);
 
 
     @Query("select distinct new com.thesis.dto.ExaminationResponseByFilter("
@@ -69,10 +71,10 @@ public interface ExaminationRepository extends JpaRepository<ExaminationEntity, 
            + " and (cast(:date as date) is null or e.date = :date)"
            + " order by e.date desc"
     )
-    List<ExaminationResponseByFilter> findAllByFilter(Long medId,
-                                                      String referralNumber,
-                                                      ExaminationType type,
-                                                      ExaminationStatus status,
-                                                      LocalDate date,
-                                                      Time time);
+    List<ExaminationResponseByFilter> findAllByFilter(@Param("medId") Long medId,
+                                                      @Param("referralNumber") String referralNumber,
+                                                      @Param("type") ExaminationType type,
+                                                      @Param("status") ExaminationStatus status,
+                                                      @Param("date") LocalDate date,
+                                                      @Param("time") Time time);
 }

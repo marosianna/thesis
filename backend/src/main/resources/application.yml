@@ -26,4 +26,4 @@ application:
       refresh-token:
         expiration: 604800000 # 7 days
 cron:
-  document-status-scheduler: 0 5 * * * *
+  document-status-scheduler: 0 0 1 * * *

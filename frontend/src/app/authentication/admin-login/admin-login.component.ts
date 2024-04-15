@@ -1,5 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { Role } from '../../models/Role';
+import { Component } from '@angular/core';
 import { Message, MessageService } from 'primeng/api';
 import { UserService } from 'src/app/services/user.service';
 import { TokenService } from 'src/app/services/token.service';
@@ -19,7 +18,6 @@ export class AdminLoginComponent {
 
   constructor(private userService: UserService, private tokenService: TokenService, private router: Router,
     private messageService: MessageService) {
-    //sessionStorage.clear();
   }
 
   onSubmitAdminLogin(): void {

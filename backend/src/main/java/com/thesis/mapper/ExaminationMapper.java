@@ -23,5 +23,5 @@ public interface ExaminationMapper {
     @Mapping(source = "id", target = "id")
     ExaminationResponse mapToExaminationResponse(ExaminationEntity examinationEntity);
 
-
 }
+

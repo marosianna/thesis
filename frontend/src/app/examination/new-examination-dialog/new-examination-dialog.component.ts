@@ -63,7 +63,6 @@ export class NewExaminationDialogComponent implements OnInit {
     (error: any) => {
       console.log(error.error.message);
       this.messages = [{ severity: 'error', summary: error.error.message}];
-      //alert(error.error.message);
     }
     )
   }

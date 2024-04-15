@@ -239,10 +239,4 @@ public class AuthServiceImpl implements LogoutHandler, AuthService {
         return optUser.isPresent();
     }
 
-    private UserEntity getCurrentLoggedInUser(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Optional<UserEntity> user = userRepository.findByUsername(authentication.getName());
-        return user.orElse(null);
-
-    }
 }

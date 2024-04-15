@@ -79,9 +79,6 @@
                     <td scope="row"><button class="btn btn-outline-danger" [disabled]="!isModifiable(examinationResponse)" (click)="openDeleteDialog(examinationResponse)">Törlés</button></td>
                 </tr>
             </table>
-           <!-- <mat-select [ngModel]="selectedPageSize" (ngModelChange)="onChange($event)">
-              <mat-option *ngFor="let size of pageSizeOptions" [value]="size">{{size}}</mat-option>
-            </mat-select>-->
             <mat-paginator 
               [length]="this.examinationResponseByFilter.length" 
               

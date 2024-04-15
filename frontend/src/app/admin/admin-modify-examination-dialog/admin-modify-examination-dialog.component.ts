@@ -93,5 +93,4 @@ export class AdminModifyExaminationDialogComponent implements OnInit {
     return this.removeTimes && !this.removeTimes.includes(value);
   }
 
-
 }

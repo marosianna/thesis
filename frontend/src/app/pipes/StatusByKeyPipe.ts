@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { TimeSlot } from '../models/TimeSlot';
 import { ExaminationStatus } from '../models/ExaminationStatus';
 
 @Pipe({

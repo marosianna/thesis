@@ -1,7 +1,6 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { Message } from 'primeng/api';
 import { Examination } from 'src/app/models/Examination';
 import { ExaminationStatus } from 'src/app/models/ExaminationStatus';
@@ -9,15 +8,11 @@ import { ExaminationResponseByFilter } from 'src/app/models/ExaminationResponseB
 import { ExaminationType } from 'src/app/models/ExaminationType';
 import { TimeSlot } from 'src/app/models/TimeSlot';
 import { AdminService } from 'src/app/services/admin.service';
-import { UserService } from 'src/app/services/user.service';
 import { AdminNewExaminationDialogComponent } from '../admin-new-examination-dialog/admin-new-examination-dialog.component';
-import { AdminDeleteExaminationDialogComponent } from '../admin-delete-examination-dialog/admin-delete-examination-dialog.component';
 import { AdminModifyExaminationDialogComponent } from '../admin-modify-examination-dialog/admin-modify-examination-dialog.component';
 import { ExaminationPageComponent } from 'src/app/examination/examination-page/examination-page.component';
 import { DeleteExaminationDialogComponent } from 'src/app/examination/delete-examination-dialog/delete-examination-dialog.component';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { DataSource } from '@angular/cdk/collections';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-admin-examination-list',
@@ -35,11 +30,6 @@ export class AdminExaminationListComponent implements OnInit, OnChanges {
   examinationStatus = ExaminationStatus;
   timeSlots = TimeSlot;
 
-  //currentPage: number = 0;
-  //pageSize: number = 5;
-  //totalItems: number = 0;
-  //items: any[] = [];
-
   public pageSlice = this.examinationResponseByFilter.slice(0, 5);
 
   searchExaminationForm = new FormGroup({
@@ -52,10 +42,7 @@ export class AdminExaminationListComponent implements OnInit, OnChanges {
   })
 
   constructor(private adminService: AdminService,
-              private userService: UserService,
-              private router: Router,
               private dialog: MatDialog,
-             
     ){}
 
   onPageChange(event: PageEvent) {
@@ -65,10 +52,7 @@ export class AdminExaminationListComponent implements OnInit, OnChanges {
     if (endIndex > this.examinationResponseByFilter.length) {
       endIndex = this.examinationResponseByFilter.length;
     }
-    //this.currentPage = event.pageIndex;
-    //this.pageSize = event.pageSize;
     this.pageSlice = this.examinationResponseByFilter.slice(startIndex, endIndex);
-    //this.loadExaminations();
   }
 
 
@@ -125,21 +109,17 @@ export class AdminExaminationListComponent implements OnInit, OnChanges {
   }
 
   loadExaminations(): void {
-    const val = {
+    const filter = {
       referralNumber: this.searchExaminationForm.get('referralNumber')?.value,
       medId: this.searchExaminationForm.get('medId')?.value,
       type: this.searchExaminationForm.get('examinationType')?.value,
       status: this.searchExaminationForm.get('examinationStatus')?.value,
       date: this.searchExaminationForm.get('date')?.value,
       time: this.searchExaminationForm.get('time')?.value,
-     // pageSize: this.pageSlice.length === 0 ? 5 : this.pageSlice.length
     }
     setTimeout(() => {
-      this.adminService.getAllByFilter(val).subscribe(
+      this.adminService.getAllByFilter(filter).subscribe(
         (res: any) => {
-          //this.items = res.content;
-          //this.totalItems = res.totalElements;
-
           this.examinationResponseByFilter = res;
           this.pageSlice = this.examinationResponseByFilter.slice(0, 5);
           this.examinations = res.map((response: any) => this.transformResponseToExamination(response));

@@ -56,10 +56,7 @@ export class ModifyExaminationDialogComponent implements OnInit {
     }
     this.examinationService.update(this.data.examination.id, val).subscribe((res: any) => {
     const index = this.examinations.findIndex(examination => examination.id === this.data.examination.id);
-    if (index !== -1) {
-      this.examinations.splice(index, 1);
-    }
-    this.examinations.push(res);
+
     this.dialogRef.close();
     },
     (error: any) => {

@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BaseRequestService } from './base-request.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { TokenService } from './token.service';
-import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { ExaminationType } from '../models/ExaminationType';
 import { ExaminationStatus } from '../models/ExaminationStatus';
-import { UserService } from './user.service';
 import { Observable } from 'rxjs';
 import { Examination } from '../models/Examination';
 
@@ -14,7 +11,7 @@ import { Examination } from '../models/Examination';
 })
 export class ExaminationService extends BaseRequestService{
 
-  constructor(http: HttpClient, private userService: UserService, private router: Router, private tokenServie: TokenService) {
+  constructor(http: HttpClient) {
     super(http);
     
   }
@@ -23,10 +20,6 @@ export class ExaminationService extends BaseRequestService{
 
   create(val: any) {
     return this.sendPost(this.url + '/create', val);
-  }
-
-  getById(id: number) {
-    return this.sendGet(this.url + '/' + id);
   }
 
   getAllByUser(): Observable<Examination[]> {

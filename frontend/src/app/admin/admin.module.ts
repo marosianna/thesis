@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminExaminationListComponent } from './admin-examination-list/admin-examination-list.component';
 import {MatCardModule} from '@angular/material/card';
@@ -15,7 +14,6 @@ import {ToastModule} from 'primeng/toast';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { AdminDeleteExaminationDialogComponent } from './admin-delete-examination-dialog/admin-delete-examination-dialog.component';
 import { AdminNewExaminationDialogComponent } from './admin-new-examination-dialog/admin-new-examination-dialog.component';
 import { AdminModifyExaminationDialogComponent } from './admin-modify-examination-dialog/admin-modify-examination-dialog.component';
 import { SharedPipesModule } from '../pipes/shared-pipes/shared-pipes.module';
@@ -26,7 +24,6 @@ import { HungarianPaginatorIntl } from '../utils/hungarianPaginatorIntl';
 @NgModule({
   declarations: [
     AdminExaminationListComponent,
-    AdminDeleteExaminationDialogComponent,
     AdminNewExaminationDialogComponent,
     AdminModifyExaminationDialogComponent
   ],

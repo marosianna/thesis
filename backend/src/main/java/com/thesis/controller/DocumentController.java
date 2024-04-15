@@ -35,6 +35,4 @@ public class DocumentController {
         return ResponseEntity.ok(documentService.getResultByExamination(id));
     }
 
-
-
 }

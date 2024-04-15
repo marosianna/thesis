@@ -102,7 +102,7 @@ export class ExaminationListComponent implements OnInit, OnChanges{
       }
     });
     dialogRef.afterClosed().subscribe(res => {
-      this.loadExaminations();
+      setTimeout(() => {this.loadExaminations()},700);
     });
   }
 

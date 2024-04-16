@@ -1,0 +1,45 @@
+<button mat-raised-button color="primary"  class="btn btn-block mb-4" [routerLink]="'/admin/register'">Adminisztrátor vagyok</button>
+<p-messages [(value)]="messages"></p-messages>
+<div class="row justify-content-center">
+  <div class="col-4">
+    <form class="form" id="register_form" [formGroup]="signUpForm" (ngSubmit)="onSubmitUserRegister()">
+          <mat-form-field>
+              <mat-label for="medId">Taj szám: </mat-label>
+              <input matInput type="number" id="medId" name="medId"  placeholder="Taj szám" formControlName="medId" required/>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label for="medId">Vezetéknév: </mat-label>
+            <input matInput type="text" id="lastName" name="lastName"  placeholder="Vezetéknév" formControlName="lastName" required/>
+        </mat-form-field>
+          <mat-form-field>
+            <mat-label for="medId">Keresztnév: </mat-label>
+            <input matInput type="text" id="firstName" name="firstName"  placeholder="Keresztnév" formControlName="firstName" required/>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label for="medId">Felhasználónév: </mat-label>
+          <input matInput type="text" id="username" name="username" placeholder="Felhasználónév" formControlName="username" required/>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label for="medId">Email: </mat-label>
+          <input matInput type="email" id="email" name="email"  placeholder="Email" formControlName="email" required/>
+        </mat-form-field>
+          <mat-form-field>
+              <mat-label for="password">Jelszó: </mat-label>
+              <input matInput type="password" id="registerPassword" name="password" minlength="8"  placeholder="Jelszó" formControlName="password" required/>
+              <small>Minimum 8 karakteres jelszót adj meg.</small>
+          </mat-form-field>
+          <mat-form-field>
+              <mat-label for="rePassword">Jelszó megerősítése: </mat-label>
+              <input matInput type="password" id="confirmPassword" name="rePassword" minlength="8"  placeholder="Jelszó mégegyszer" formControlName="rePassword" required/>
+          </mat-form-field>
+          <div>
+              <span class="buttons">
+                  <button mat-raised-button color="primary" class="btn btn-block mb-3" type="submit" >Regisztráció</button>
+              </span>
+              <span class="buttons">
+                  <button mat-raised-button color="secondary" class="btn btn-block mb-3" [routerLink]="['']" >Vissza a bejelentkezésre</button>
+              </span>
+          </div>
+      </form>
+  </div>
+</div>

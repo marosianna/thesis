@@ -1,36 +1,38 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { UserComponent } from './user/user.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AuthContentComponent } from './auth-content/auth-content.component';
-import { LoginComponent } from './login/login.component';
-import { WelcomePageComponent } from './welcome-page/welcome-page.component';
-import { ButtonsComponent } from './buttons/buttons.component';
-import { AdminLoginComponent } from './admin-login/admin-login.component';
+import { AuthGuard } from './auth-config/auth-guard';
+import { HeaderComponent } from './header/header.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AuthInterceptor } from './auth-config/auth.interceptor';
+import { AdminComponent } from './admin/admin.component';
+import { MessageService} from 'primeng/api';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    UserComponent,
-    AuthContentComponent,
-    LoginComponent,
-    WelcomePageComponent,
-    ButtonsComponent,
-    AdminLoginComponent,
+    HeaderComponent,
+    AdminComponent,
+   
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     NgbModule,
-    FormsModule
+    BrowserAnimationsModule,
   ],
-  providers: [],
+  providers: [ AuthGuard, MessageService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

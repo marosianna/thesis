@@ -1,0 +1,39 @@
+<mat-dialog-content>
+    <h2>Vizsgálat adatai</h2>
+    <p-messages [(value)]="messages"></p-messages>
+        <table class="table mat-table">
+            <thead>
+            <tr>
+                <th scope="col">Beutaló száma</th>
+                <th scope="col">Vérvétel típusa</th>
+                <th scope="col">Vizsgálat státusza</th>
+                <th scope="col">Dátum</th>
+                <th scope="col">Időpont</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+            <tr *ngIf="examination">
+                <td scope="row">{{examination.referralNumber}}</td>
+                <td scope="row">{{examination.type | enumValueByKeyType}}</td>
+                <td scope="row">{{examination.status | enumValueByKeyStatus}}</td>
+                <td scope="row">{{examination.date | date }}</td>
+                <td scope="row">{{examination.time | enumValueByKey }}</td>
+                <td scope="row" *ngIf="adminId !== null">
+                    <label for="files" class="btn btn-primary">Eredmény feltöltése</label>
+                    <input class="form-control" type="file" id="files" style="visibility:hidden;" 
+                            (change)="onChange($event)"> 
+                        <p *ngIf="uploadedFileName">{{ uploadedFileName }}</p>
+                </td>
+                <td scope="row" *ngIf="adminId !== null && isFileUploaded" >
+                    <button class="btn btn-danger" (click)="deleteUploadedFile()">Fájl törlése</button>
+                </td>
+            </tr>
+        </table>
+        <button class="btn btn-secondary" style="float: right;" (click)="close()">Mégsem</button>
+        <button (click)="onUpload()" *ngIf="adminId !== null" style="float: right;"
+            class="btn btn-success"> 
+            Mentés
+        </button> 
+        <button class="btn btn-primary" style="float: left;" (click)="onDownload()" *ngIf="resultByExamination !== 0">Eredmény letöltése</button>
+  </mat-dialog-content>

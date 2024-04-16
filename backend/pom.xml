@@ -104,11 +104,19 @@
 			<artifactId>jjwt-jackson</artifactId>
 			<version>0.11.5</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<version>9.16.3</version>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -147,59 +155,6 @@
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.openapitools</groupId>
-				<artifactId>openapi-generator-maven-plugin</artifactId>
-				<version>6.0.0</version>
-				<executions>
-					<execution>
-						<phase>generate-test-sources</phase>
-						<id>generate test sources</id>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<inputSpec>${project.basedir}/target/openapi.json</inputSpec>
-							<generateSupportingFiles>false</generateSupportingFiles>
-							<generatorName>java</generatorName>
-							<output>${project.basedir}</output>
-							<apiPackage>com.thesis.api</apiPackage>
-							<modelPackage>com.thesis.model</modelPackage>
-							<invokerPackage>com.thesis.invoker</invokerPackage>
-							<generateModelTests>false</generateModelTests>
-							<generateApiTests>false</generateApiTests>
-							<generateModelDocumentation>false</generateModelDocumentation>
-							<generateApiDocumentation>false</generateApiDocumentation>
-							<!--<supportingFilesToGenerate>ApiClient.java,JavaTimeFormatter.java,Authentication.java,ApiModelProperty.java,ApiKeyAuth.java,RFC3339DateFormat.java</supportingFilesToGenerate>-->
-							<configOptions>
-								<library>resttemplate</library>
-								<serializationLibrary>jackson</serializationLibrary>
-								<sourceFolder>src/test/java</sourceFolder>
-								<useSpringBoot3>true</useSpringBoot3>
-								<useJakartaEe>true</useJakartaEe>
-							</configOptions>
-						</configuration>
-					</execution>
-					<execution>
-						<phase>integration-test</phase>
-						<id>generate frontend sources</id>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<inputSpec>${project.basedir}/target/openapi.json</inputSpec>
-							<generatorName>typescript-angular</generatorName>
-							<output>${project.basedir}/../frontend/src/app</output>
-							<apiPackage>api</apiPackage>
-							<modelPackage>model</modelPackage>
-							<invokerPackage>invoker</invokerPackage>
-							<supportingFilesToGenerate>
-								models.ts,api.ts,variables.ts,index.ts,encoder.ts,configuration.ts,api.module.ts
-							</supportingFilesToGenerate>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>

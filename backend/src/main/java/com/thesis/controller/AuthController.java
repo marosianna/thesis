@@ -1,6 +1,8 @@
 package com.thesis.controller;
 
-import com.thesis.config.*;
+import com.thesis.auth.AuthenticationRequest;
+import com.thesis.auth.AuthenticationResponse;
+import com.thesis.auth.RegisterRequest;
 import com.thesis.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,7 +25,6 @@ public class AuthController {
             @RequestBody RegisterRequest request
     ) {
         return ResponseEntity.ok(authService.register(request));
-
     }
 
     @PostMapping("/login")
@@ -31,6 +32,21 @@ public class AuthController {
             @RequestBody AuthenticationRequest request
     ) {
         return ResponseEntity.ok(authService.login(request));
+    }
+
+    @PostMapping("/admin/register")
+    public ResponseEntity<AuthenticationResponse> registerAdmin(
+            @RequestBody RegisterRequest request
+    ) {
+        return ResponseEntity.ok(authService.registerAdmin(request));
+
+    }
+
+    @PostMapping("/admin/login")
+    public ResponseEntity<AuthenticationResponse> loginAdmin(
+            @RequestBody AuthenticationRequest request
+    ) {
+        return ResponseEntity.ok(authService.loginAdmin(request));
     }
 
     @PostMapping("/logout")
@@ -41,39 +57,5 @@ public class AuthController {
     ) {
         authService.logout(request,response,authentication);
     }
-
-
-
-    /*
-    @PostMapping("/login")
-    public ResponseEntity<UserDto> login(@RequestBody UserCredentialsDto userCredentialsDto) {
-       UserDto user = userService.login(userCredentialsDto);
-       user.setToken(userAuthProvider.createToken(user));
-       return ResponseEntity.ok(user);
-    }
-
-    @PostMapping("/login/admin")
-    public ResponseEntity<AdminDto> loginAdmin(@RequestBody AdminCredentialsDto adminCredentialsDto) {
-        AdminDto adminDto = adminService.login(adminCredentialsDto);
-        adminDto.setToken(adminAuthProvider.createToken(adminDto));
-        return ResponseEntity.ok(adminDto);
-    }
-
-
-    @PostMapping("/register")
-    public ResponseEntity<UserDto> register(@RequestBody UserSignUpDto userSignUpDto) {
-        UserDto user = userService.register(userSignUpDto);
-        user.setToken(userAuthProvider.createToken(user));
-        return ResponseEntity.created(URI.create("/users/" + user.getId())).body(user);
-    }
-
-    @PostMapping("/register/admin")
-    public ResponseEntity<AdminDto> register(@RequestBody AdminSignUpDto adminSignUpDto) {
-        AdminDto adminDto = adminService.register(adminSignUpDto);
-        adminDto.setToken(adminAuthProvider.createToken(adminDto));
-        return ResponseEntity.created(URI.create("/admins/" + adminDto.getId())).body(adminDto);
-    }
-
-     */
 
 }

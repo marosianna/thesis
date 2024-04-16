@@ -1,7 +1,10 @@
 spring:
+  servlet:
+    multipart:
+      enabled: true
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
       show-sql: true
     properties:
       hibernate:
@@ -14,7 +17,9 @@ spring:
     password: postgres
     driverClassName: org.postgresql.Driver
   flyway:
-    ignore-missing-migrations: true
+    url: jdbc:postgresql://localhost:5432/thesisdb
+    user: postgres
+    password: postgres
 application:
   security:
     jwt:
@@ -22,3 +27,5 @@ application:
       expiration: 86400000 # a day
       refresh-token:
         expiration: 604800000 # 7 days
+cron:
+  document-status-scheduler: 0 0 1 * * *
